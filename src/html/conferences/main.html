@@ -13,10 +13,10 @@
                 <label for="inputPassword">Password</label>
                 <input ng-model="fsPassword" type="password" class="form-control" id="inputPassword" placeholder="Password">
             </div>
-            <button class="btn btn-primary">Refresh</button>
+            <button ng-click="refresh()" class="btn btn-primary">Refresh</button>
         </form>
     </div>
     <div class="col-md-9 height-all">
-        <pre>{{ fsServers | json }}</pre>
+        <pre>{{ listData | json }}</pre>
     </div>
 </div>
