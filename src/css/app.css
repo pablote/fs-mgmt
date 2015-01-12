@@ -17,3 +17,11 @@
 .vertical-scroll {
     overflow-y: scroll;
 }
+
+/* Conference List */
+.settings-panel
+{
+    background-color: #222222;
+    color: #dddddd;
+    font-size: 11pt;
+}
