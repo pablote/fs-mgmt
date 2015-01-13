@@ -9,7 +9,6 @@
         "height": 768
     },
     "dependencies": {
-        "rsvp": "~3.0.16",
         "string": "~3.0.0",
         "underscore": "~1.7.0",
         "moment": "~2.9.0"

@@ -18,7 +18,10 @@
                 <label for="inputPassword">Password</label>
                 <input ng-model="fsPassword" type="password" class="form-control" id="inputPassword" placeholder="Password">
             </div>
+
             <button ng-click="refresh()" class="btn btn-primary">Refresh</button>
+
+            <span ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>
         </form>
     </div>
 

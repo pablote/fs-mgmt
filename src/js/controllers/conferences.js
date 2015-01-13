@@ -16,6 +16,15 @@
 
     module.controller('ConferencesController', ['$scope', 'localStorage', 'freeswitch',
         function ($scope, localStorage, freeswitch) {
+            //TODO: for some reason the browser version of moment is not working, investigate further
+            window.moment = require('moment');
+            window.moment.fn.fromNowOrNow = function (a) {
+                if (Math.abs(moment().diff(this)) < 3000) {
+                    return 'just now';
+                }
+                return this.fromNow(a);
+            };
+
             // default values
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.fsServers = value;
@@ -34,6 +43,8 @@
                 freeswitch
                     .list($scope.fsServers, $scope.fsUsername, $scope.fsPassword)
                     .then(function (fsListResponse) {
+                        $scope.lastRefresh = moment();
+                        $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
                         $scope.listData = fsListResponse;
                     })
                     .catch(function (error) {
@@ -46,6 +57,25 @@
                     })
             };
 
+            //TODO: move this to a directive
+            setInterval(function() {
+                $scope.$apply(function() {
+                    if ($scope.lastRefresh) $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
+                });
+            }, 3000);
+            /*
+            setInterval(function() {
+                $scope.$apply(function() {
+                    if ($scope.lastRefresh) {
+                        if (Math.abs(moment().diff($scope.lastRefresh)) < 3000) {
+                            $scope.lastRefreshString = 'just now';
+                        } else {
+                            $scope.lastRefreshString = $scope.lastRefresh.fromNow();
+                        }
+                    }
+                });
+            }, 3000);
+*/
             //TODO: move this to a directive
             $('#dlgMessage').on('hidden.bs.modal', function () {
                 $scope.$apply(function() {
