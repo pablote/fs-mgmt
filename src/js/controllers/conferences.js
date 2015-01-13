@@ -18,15 +18,15 @@
         function ($scope, localStorage, freeswitch) {
             // default values
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
-                $scope.fsServers = value;
+                if (value) $scope.fsServers = value;
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchUsername).then(function(value) {
-                $scope.fsUsername = value;
+                if (value) $scope.fsUsername = value;
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchPassword).then(function(value) {
-                $scope.fsPassword = value;
+                if (value) $scope.fsPassword = value;
             });
 
             // methods
@@ -37,9 +37,23 @@
                         $scope.listData = fsListResponse;
                     })
                     .catch(function (error) {
-                        alert(error);
+                        var msg = 'A problem occurred accesing the Freeswitch servers.';
+
+                        $scope.messageDialogTitle = 'Error';
+                        $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = error;
+                        $('#dlgMessage').modal();
                     })
             };
+
+            //TODO: move this to a directive
+            $('#dlgMessage').on('hidden.bs.modal', function () {
+                $scope.$apply(function() {
+                    $scope.messageDialogTitle = '';
+                    $scope.messageDialogText = '';
+                    $scope.messageDialogDetails = '';
+                })
+            });
 
             // watches
             $scope.$watch("fsServers", function (newValue, oldValue) {

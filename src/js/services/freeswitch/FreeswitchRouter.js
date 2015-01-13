@@ -21,9 +21,13 @@
                     responses.push(client.list());
                 });
 
-                $q.all(responses).then(function(allResponses) {
-                    resolve(allResponses);
-                })
+                $q.all(responses)
+                    .then(function(allResponses) {
+                        resolve(allResponses);
+                    })
+                    .catch(function(error) {
+                        reject(error);
+                    })
             });
         };
 
