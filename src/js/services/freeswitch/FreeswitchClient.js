@@ -22,10 +22,13 @@
                     })
                     .then(function (getResponse) {
                         var parser = new FreeswitchListParser();
-                        return parser.parse(getResponse);
+                        return parser.parse(getResponse.data);
                     })
                     .then(function (parseResponse) {
-                        resolve(parseResponse);
+                        resolve({
+                            name: self.server,
+                            conferences: parseResponse
+                        });
                     })
                     .catch(function (listError) {
                         reject(listError);

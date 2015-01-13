@@ -13,12 +13,16 @@
 
         FreeswitchRouter.prototype.list = function(servers, username, password) {
             return $q(function (resolve, reject) {
+                var responses = [];
                 var serverList = servers.split(',');
+
                 u.each(serverList, function (server) {
                     var client = new FreeswitchClient(server.trim(), username, password);
-                    client.list().then(function (result) {
-                        console.log(result);
-                    });
+                    responses.push(client.list());
+                });
+
+                $q.all(responses).then(function(allResponses) {
+                    resolve(allResponses);
                 })
             });
         };
