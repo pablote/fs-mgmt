@@ -1,0 +1,27 @@
+.ng-cloak {
+	display: none;
+}
+
+.height-all {
+    height: 100% !important;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
+
+.no-margin {
+    margin: 0 !important;
+}
+
+.vertical-scroll {
+    overflow-y: scroll;
+}
+
+/* Conference List */
+.settings-panel
+{
+    background-color: #222222;
+    color: #dddddd;
+    font-size: 11pt;
+}
