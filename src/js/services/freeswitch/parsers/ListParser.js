@@ -31,13 +31,15 @@
                             // its a member in the current conference
                             else {
                                 var memberAttributes = line.split(';');
-                                response[response.length - 1].members.push({
+                                response[response.length - 1].members.push({ //TODO: this object should be a class
                                     id: memberAttributes[0],
                                     participantRegister: memberAttributes[1],
                                     channelId: memberAttributes[2],
                                     callerIdName: memberAttributes[3],
                                     callerIdNumber: memberAttributes[4],
-                                    entitlements: memberAttributes[5]
+                                    entitlements: memberAttributes[5],
+                                    isInternalCall: (memberAttributes[1].indexOf("sofia/internal/conf_") > -1 ||
+                                        memberAttributes[1].indexOf("sofia/internal/00000") > -1) || memberAttributes[1].indexOf("loopback") > -1
                                 });
                             }
                         }

@@ -38,7 +38,7 @@
             <div ng-repeat="conference in server.conferences">
                 <h4>{{ conference.name }}</h4>
 
-                <table class="table table-bordered table-stripped table-hover">
+                <table class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
                             <th>Member Id</th>
@@ -50,7 +50,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="member in conference.members">
+                        <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
                             <td>{{ member.id }}</td>
                             <td>{{ member.participantRegister }}</td>
                             <td>{{ member.channelId }}</td>
