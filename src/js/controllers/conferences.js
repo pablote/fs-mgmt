@@ -45,7 +45,7 @@
                     .then(function (fsListResponse) {
                         $scope.lastRefresh = moment();
                         $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
-                        $scope.listData = fsListResponse;
+                        $scope.servers = fsListResponse;
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred accesing the Freeswitch servers.';

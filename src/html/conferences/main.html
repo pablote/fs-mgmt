@@ -2,7 +2,7 @@
     <!--
         Left column
     -->
-    <div class="col-md-3 col-sm-3 hidden-xs
+    <div class="col-md-2 col-sm-2 hidden-xs
                 height-all settings-panel">
         <div style="height: 20px"></div>
         <form>
@@ -28,9 +28,40 @@
     <!--
         Main body
     -->
-    <div class="col-md-9 col-sm-9 col-xs-12
-                height-all">
-        <pre class="height-all vertical-scroll no-margin no-padding">{{ listData | json }}</pre>
+    <div class="col-md-10 col-sm-10 col-xs-12
+                height-all vertical-scroll">
+        <div ng-repeat="server in servers">
+            <h3>{{ server.name }}</h3>
+
+            <span ng-show="server.conferences.length == 0">No conferences on this server</span>
+
+            <div ng-repeat="conference in server.conferences">
+                <h4>{{ conference.name }}</h4>
+
+                <table class="table table-bordered table-stripped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Member Id</th>
+                            <th>Register</th>
+                            <th>Channel Id</th>
+                            <th>Caller Id Name</th>
+                            <th>Caller Id Number</th>
+                            <th>Entitlements</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="member in conference.members">
+                            <td>{{ member.id }}</td>
+                            <td>{{ member.participantRegister }}</td>
+                            <td>{{ member.channelId }}</td>
+                            <td>{{ member.callerIdName }}</td>
+                            <td>{{ member.callerIdNumber }}</td>
+                            <td>{{ member.entitlements }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <!--
