@@ -36,17 +36,24 @@
             <span ng-show="server.conferences.length == 0">No conferences on this server</span>
 
             <div ng-repeat="conference in server.conferences">
-                <h4>{{ conference.name }}</h4>
 
-                <table class="table table-bordered table-striped table-hover">
+                <div class="list-conference-title">
+                    <h4 class="list-conference-name">{{ conference.name }}</h4>
+
+                    <button ng-click="hangup(server.name, conference.name, null)"
+                            class="btn btn-default btn-sm">Hangup all</button>
+                </div>
+
+                <table class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
-                            <th>Member Id</th>
+                            <th>Id</th>
                             <th>Register</th>
                             <th>Channel Id</th>
                             <th>Caller Id Name</th>
                             <th>Caller Id Number</th>
                             <th>Entitlements</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -57,6 +64,10 @@
                             <td>{{ member.callerIdName }}</td>
                             <td>{{ member.callerIdNumber }}</td>
                             <td>{{ member.entitlements }}</td>
+                            <td>
+                                <button ng-click="hangup(server.name, conference.name, member.id)"
+                                        class="btn btn-default btn-sm">Hangup</button>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -76,7 +87,7 @@
                 </div>
                 <div class="modal-body">
                     <p>{{ messageDialogText }}</p>
-                    <a data-toggle="collapse" href="#dlgMessageDetails">View details</a>
+                    <a ng-show="messageDialogDetails" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
                     <div class="collapse" id="dlgMessageDetails">
                         <pre>{{ messageDialogDetails | json }}</pre>
                     </div>
