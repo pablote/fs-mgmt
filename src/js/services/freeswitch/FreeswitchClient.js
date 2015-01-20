@@ -36,6 +36,24 @@
             });
         };
 
+        FreeswitchClient.prototype.hangup = function(conferenceName, memberId) {
+            var self = this;
+            var whattohup = memberId || 'all';
+            return $q(function (resolve, reject) {
+                $http
+                    .get('http://' + self.server + ':8080/webapi/conference?' + conferenceName + ' hup ' + whattohup, {
+                        headers: { Authorization: self.basicAuthHeader }
+                    })
+                    .then(function (hangupResponse) {
+                        console.log(hangupResponse);
+                        resolve();
+                    })
+                    .catch(function (hangupError) {
+                        reject(hangupError);
+                    })
+            });
+        };
+
         return FreeswitchClient;
     });
 }());

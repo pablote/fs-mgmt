@@ -19,9 +19,16 @@
 }
 
 /* Conference List */
-.settings-panel
-{
+.settings-panel {
     background-color: #222222;
     color: #dddddd;
     font-size: 11pt;
+}
+
+.list-conference-title {
+    margin-bottom: 10px;
+}
+
+.list-conference-name {
+    display: inline;
 }

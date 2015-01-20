@@ -57,25 +57,36 @@
                     })
             };
 
+            $scope.hangup = function (server, conferenceName, memberId) {
+                freeswitch
+                    .hangup(server, $scope.fsUsername, $scope.fsPassword, conferenceName, memberId)
+                    .then(function (hangupResponse) {
+                        var msg = 'Done';
+
+                        $scope.messageDialogTitle = 'Hangup';
+                        $scope.messageDialogText = msg;
+                        $('#dlgMessage').modal();
+                    })
+                    .then(function () {
+                        $scope.refresh();
+                    })
+                    .catch(function (error) {
+                        var msg = 'A problem occurred during hangup.';
+
+                        $scope.messageDialogTitle = 'Error';
+                        $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = error;
+                        $('#dlgMessage').modal();
+                    });
+            };
+
             //TODO: move this to a directive
             setInterval(function() {
                 $scope.$apply(function() {
                     if ($scope.lastRefresh) $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
                 });
             }, 3000);
-            /*
-            setInterval(function() {
-                $scope.$apply(function() {
-                    if ($scope.lastRefresh) {
-                        if (Math.abs(moment().diff($scope.lastRefresh)) < 3000) {
-                            $scope.lastRefreshString = 'just now';
-                        } else {
-                            $scope.lastRefreshString = $scope.lastRefresh.fromNow();
-                        }
-                    }
-                });
-            }, 3000);
-*/
+
             //TODO: move this to a directive
             $('#dlgMessage').on('hidden.bs.modal', function () {
                 $scope.$apply(function() {
