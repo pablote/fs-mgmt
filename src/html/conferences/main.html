@@ -1,117 +1,119 @@
-<div class="row height-all">
-    <!--
-        Left column
-    -->
-    <div class="col-md-2 col-sm-2 hidden-xs
-                height-all settings-panel">
-        <div style="height: 20px"></div>
-        <form>
-            <div class="form-group">
-                <label for="inputServers">Servers</label>
-                <input ng-model="fsServers" type="text" class="form-control" id="inputServers" placeholder="Comma separated list of servers">
-            </div>
-            <div class="form-group">
-                <label for="inputUsername">Username</label>
-                <input ng-model="fsUsername" type="text" class="form-control" id="inputUsername" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input ng-model="fsPassword" type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
-
-            <button ng-click="refresh()" class="btn btn-primary">Refresh</button>
-
-            <span ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>
-        </form>
-    </div>
-
-    <!--
-        Main body
-    -->
-    <div class="col-md-10 col-sm-10 col-xs-12
-                height-all vertical-scroll">
-        <div ng-repeat="server in servers">
-            <h3>{{ server.name }}</h3>
-
-            <span ng-show="server.conferences.length == 0">No conferences on this server</span>
-
-            <div ng-repeat="conference in server.conferences">
-
-                <div class="list-conference-title">
-                    <h4 class="list-conference-name">{{ conference.name }}</h4>
-
-                    <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                    </button>
-
-                    <button ng-confirm-click="hangup(server, conference, null)"
-                            class="btn btn-default btn-sm">Hangup all</button>
-
-                    <button class="btn btn-default btn-sm" style="white-space: nowrap"
-                            data-container="body" data-toggle="popover" data-placement="right"
-                            data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
-
-                    <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
-                            class="btn btn-default btn-sm">Recording status</button>
+<div class="container-fluid height-all">
+    <div class="row height-all">
+        <!--
+            Left column
+        -->
+        <div class="col-md-2 col-sm-2 hidden-xs
+                    height-all settings-panel vertical-crop">
+            <div style="height: 20px"></div>
+            <form>
+                <div class="form-group">
+                    <label for="inputServers">Servers</label>
+                    <input ng-model="fsServers" type="text" class="form-control" id="inputServers" placeholder="Comma separated list of servers">
+                </div>
+                <div class="form-group">
+                    <label for="inputUsername">Username</label>
+                    <input ng-model="fsUsername" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword">Password</label>
+                    <input ng-model="fsPassword" type="password" class="form-control" id="inputPassword" placeholder="Password">
                 </div>
 
-                <table class="table table-bordered table-striped table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Register</th>
-                            <th>Channel Id</th>
-                            <th>Caller Id Name</th>
-                            <th>Caller Id Number</th>
-                            <th>Entitlements</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
-                            <td>{{ member.id }}</td>
-                            <td>{{ member.participantRegister }}</td>
-                            <td>
-                                {{ member.channelId }}
-                                <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-sm">
-                                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                                </button>
-                            </td>
-                            <td>{{ member.callerIdName }}</td>
-                            <td>{{ member.callerIdNumber }}</td>
-                            <td>{{ member.entitlements }}</td>
-                            <td>
-                                <button ng-confirm-click="hangup(server, conference, member)"
-                                        class="btn btn-default btn-sm">Hangup</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <button ng-click="refresh()" class="btn btn-primary">Refresh</button>
+
+                <span ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>
+            </form>
+        </div>
+
+        <!--
+            Main body
+        -->
+        <div class="col-md-10 col-sm-10 col-xs-12
+                    height-all vertical-scroll">
+            <div ng-repeat="server in servers">
+                <h3>{{ server.name }}</h3>
+
+                <span ng-show="server.conferences.length == 0">No conferences on this server</span>
+
+                <div ng-repeat="conference in server.conferences">
+
+                    <div class="list-conference-title">
+                        <h4 class="list-conference-name">{{ conference.name }}</h4>
+
+                        <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                        </button>
+
+                        <button ng-confirm-click="hangup(server, conference, null)"
+                                class="btn btn-default btn-sm">Hangup all</button>
+
+                        <button class="btn btn-default btn-sm" style="white-space: nowrap"
+                                data-container="body" data-toggle="popover" data-placement="right"
+                                data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
+
+                        <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
+                                class="btn btn-default btn-sm">Recording status</button>
+                    </div>
+
+                    <table class="table table-bordered table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Register</th>
+                                <th>Channel Id</th>
+                                <th>Caller Id Name</th>
+                                <th>Caller Id Number</th>
+                                <th>Entitlements</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
+                                <td>{{ member.id }}</td>
+                                <td>{{ member.participantRegister }}</td>
+                                <td>
+                                    {{ member.channelId }}
+                                    <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-sm">
+                                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                                    </button>
+                                </td>
+                                <td>{{ member.callerIdName }}</td>
+                                <td>{{ member.callerIdNumber }}</td>
+                                <td>{{ member.entitlements }}</td>
+                                <td>
+                                    <button ng-confirm-click="hangup(server, conference, member)"
+                                            class="btn btn-default btn-sm">Hangup</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!--
-        Message Dialog
-    -->
-    <div id="dlgMessage" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">{{ messageDialogTitle }}</h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{ messageDialogText }}</p>
-                    <a ng-show="messageDialogDetails" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
-                    <div ng-show="messageDialogDetails" class="collapse" id="dlgMessageDetails">
-                        <pre>{{ messageDialogDetails | json }}</pre>
+        <!--
+            Message Dialog
+        -->
+        <div id="dlgMessage" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{{ messageDialogTitle }}</h4>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+                    <div class="modal-body">
+                        <p>{{ messageDialogText }}</p>
+                        <a ng-show="messageDialogDetails" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
+                        <div ng-show="messageDialogDetails" class="collapse" id="dlgMessageDetails">
+                            <pre>{{ messageDialogDetails | json }}</pre>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
 </div>

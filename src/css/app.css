@@ -15,7 +15,11 @@
 }
 
 .vertical-scroll {
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+
+.vertical-crop {
+    overflow-y: hidden;
 }
 
 /* Conference List */
