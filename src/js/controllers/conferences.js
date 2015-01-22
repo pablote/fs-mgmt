@@ -3,7 +3,8 @@
     'use strict';
     var module = angular.module('fsmgmt.controllers.conferences', [
         'fsmgmt.services.LocalStorageService',
-        'fsmgmt.services.freeswitch.FreeswitchRouter'
+        'fsmgmt.services.freeswitch.FreeswitchRouter',
+        'fsmgmt.directives.ngConfirmClick'
     ]);
 
     var consts = {

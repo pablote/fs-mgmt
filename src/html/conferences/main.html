@@ -44,7 +44,7 @@
                         <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                     </button>
 
-                    <button ng-click="hangup(server, conference, null)"
+                    <button ng-confirm-click="hangup(server, conference, null)"
                             class="btn btn-default btn-sm">Hangup all</button>
 
                     <button class="btn btn-default btn-sm" style="white-space: nowrap"
@@ -81,7 +81,7 @@
                             <td>{{ member.callerIdNumber }}</td>
                             <td>{{ member.entitlements }}</td>
                             <td>
-                                <button ng-click="hangup(server, conference, member)"
+                                <button ng-confirm-click="hangup(server, conference, member)"
                                         class="btn btn-default btn-sm">Hangup</button>
                             </td>
                         </tr>

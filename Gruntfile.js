@@ -8,7 +8,8 @@ module.exports = function(grunt) {
 
         nodewebkit: {
             options: {
-                version: '0.11.5',
+                // using latest alpha for the moment, because dialogs don't work on linux on 0.11.x
+                //version: '0.11.5',
                 buildDir: './build',
                 platforms: [ /* 'win','osx', 'linux32', */ 'linux64']
             },
