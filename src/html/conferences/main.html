@@ -40,8 +40,9 @@
                 <div class="list-conference-title">
                     <h4 class="list-conference-name">{{ conference.name }}</h4>
 
-                    <button ng-click="copyToClipboard(conference.name)"
-                            class="btn btn-default btn-sm">Copy to clipboard</button>
+                    <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                    </button>
 
                     <button ng-click="hangup(server.name, conference.name, null)"
                             class="btn btn-default btn-sm">Hangup all</button>
@@ -63,7 +64,12 @@
                         <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
                             <td>{{ member.id }}</td>
                             <td>{{ member.participantRegister }}</td>
-                            <td>{{ member.channelId }}</td>
+                            <td>
+                                {{ member.channelId }}
+                                <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-sm">
+                                    <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
+                                </button>
+                            </td>
                             <td>{{ member.callerIdName }}</td>
                             <td>{{ member.callerIdNumber }}</td>
                             <td>{{ member.entitlements }}</td>

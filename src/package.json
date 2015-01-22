@@ -5,7 +5,7 @@
     "main": "html/main.html",
     "window": {
         "toolbar": false,
-        "width": 1280,
+        "width": 1380,
         "height": 768
     },
     "dependencies": {
