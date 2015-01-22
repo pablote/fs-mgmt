@@ -63,9 +63,9 @@
                     })
             };
 
-            $scope.hangup = function (server, conferenceName, memberId) {
+            $scope.hangup = function (server, conference, member) {
                 freeswitch
-                    .hangup(server, $scope.fsUsername, $scope.fsPassword, conferenceName, memberId)
+                    .hangup(server, conference, member)
                     .then(function (hangupResponse) {
                         var msg = 'Done';
 
@@ -94,7 +94,7 @@
 
             $scope.showRecordingStatus = function (server, conference) {
                 freeswitch
-                    .recordingCheck(server.name, $scope.fsUsername, $scope.fsPassword, conference.name)
+                    .recordingCheck(server, conference)
                     .then(function (recordingCheckResponse) {
                         $scope.messageDialogTitle = 'Recording status';
                         $scope.messageDialogText = recordingCheckResponse;
