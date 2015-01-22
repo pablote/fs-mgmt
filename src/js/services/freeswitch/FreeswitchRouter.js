@@ -36,6 +36,11 @@
             return client.hangup(conferenceName, memberId);
         };
 
+        FreeswitchRouter.prototype.recordingCheck = function(server, username, password, conferenceName) {
+            var client = new FreeswitchClient(server.trim(), username, password);
+            return client.recordingCheck(conferenceName);
+        };
+
         return new FreeswitchRouter();
     });
 }());

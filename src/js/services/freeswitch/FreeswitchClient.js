@@ -45,11 +45,26 @@
                         headers: { Authorization: self.basicAuthHeader }
                     })
                     .then(function (hangupResponse) {
-                        console.log(hangupResponse);
-                        resolve();
+                        resolve(hangupResponse.data);
                     })
                     .catch(function (hangupError) {
                         reject(hangupError);
+                    })
+            });
+        };
+
+        FreeswitchClient.prototype.recordingCheck = function(conferenceName) {
+            var self = this;
+            return $q(function (resolve, reject) {
+                $http
+                    .get('http://' + self.server + ':8080/webapi/conference?' + conferenceName + ' recording check', {
+                        headers: { Authorization: self.basicAuthHeader }
+                    })
+                    .then(function (recordingCheckResponse) {
+                        resolve(recordingCheckResponse.data);
+                    })
+                    .catch(function (recordingCheckError) {
+                        reject(recordingCheckError);
                     })
             });
         };

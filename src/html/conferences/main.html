@@ -50,6 +50,9 @@
                     <button class="btn btn-default btn-sm" style="white-space: nowrap"
                             data-container="body" data-toggle="popover" data-placement="right"
                             data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
+
+                    <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
+                            class="btn btn-default btn-sm">Recording status</button>
                 </div>
 
                 <table class="table table-bordered table-striped table-hover table-condensed">

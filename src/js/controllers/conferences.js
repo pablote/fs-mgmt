@@ -71,6 +71,7 @@
 
                         $scope.messageDialogTitle = 'Hangup';
                         $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = hangupResponse;
                         $('#dlgMessage').modal();
                     })
                     .then(function () {
@@ -89,6 +90,24 @@
             $scope.copyToClipboard = function (text) {
                 var clipboard = gui.Clipboard.get();
                 clipboard.set(text, 'text');
+            };
+
+            $scope.showRecordingStatus = function (server, conference) {
+                freeswitch
+                    .recordingCheck(server.name, $scope.fsUsername, $scope.fsPassword, conference.name)
+                    .then(function (recordingCheckResponse) {
+                        $scope.messageDialogTitle = 'Recording status';
+                        $scope.messageDialogText = recordingCheckResponse;
+                        $('#dlgMessage').modal();
+                    })
+                    .catch(function (error) {
+                        var msg = 'A problem occurred during recording check.';
+
+                        $scope.messageDialogTitle = 'Error';
+                        $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = error;
+                        $('#dlgMessage').modal();
+                    });
             };
 
             //TODO: move this to a directive
