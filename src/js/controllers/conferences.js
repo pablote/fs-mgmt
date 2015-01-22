@@ -16,6 +16,7 @@
 
     module.controller('ConferencesController', ['$scope', 'localStorage', 'freeswitch',
         function ($scope, localStorage, freeswitch) {
+            var gui = require('nw.gui');
             //TODO: for some reason the browser version of moment is not working, investigate further
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
@@ -78,6 +79,11 @@
                         $scope.messageDialogDetails = error;
                         $('#dlgMessage').modal();
                     });
+            };
+
+            $scope.copyToClipboard = function (text) {
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(text, 'text');
             };
 
             //TODO: move this to a directive

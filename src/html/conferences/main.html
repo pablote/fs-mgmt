@@ -40,6 +40,9 @@
                 <div class="list-conference-title">
                     <h4 class="list-conference-name">{{ conference.name }}</h4>
 
+                    <button ng-click="copyToClipboard(conference.name)"
+                            class="btn btn-default btn-sm">Copy to clipboard</button>
+
                     <button ng-click="hangup(server.name, conference.name, null)"
                             class="btn btn-default btn-sm">Hangup all</button>
                 </div>
