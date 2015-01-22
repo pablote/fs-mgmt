@@ -47,6 +47,11 @@
                         $scope.lastRefresh = moment();
                         $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
                         $scope.servers = fsListResponse;
+
+                        //TODO: move to directive
+                        setTimeout(function(){
+                            $('[data-toggle="popover"]').popover();
+                        }, 200);
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred accesing the Freeswitch servers.';

@@ -46,6 +46,10 @@
 
                     <button ng-click="hangup(server.name, conference.name, null)"
                             class="btn btn-default btn-sm">Hangup all</button>
+
+                    <button class="btn btn-default btn-sm" style="white-space: nowrap"
+                            data-container="body" data-toggle="popover" data-placement="right"
+                            data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
                 </div>
 
                 <table class="table table-bordered table-striped table-hover table-condensed">
