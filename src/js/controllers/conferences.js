@@ -28,6 +28,8 @@
             };
 
             // default values
+            $scope.isSettingsVisible = true;
+
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.fsServers = value;
             });
@@ -109,6 +111,10 @@
                         $scope.messageDialogDetails = error;
                         $('#dlgMessage').modal();
                     });
+            };
+
+            $scope.toggleSettings = function () {
+                $scope.isSettingsVisible = !$scope.isSettingsVisible;
             };
 
             //TODO: move this to a directive

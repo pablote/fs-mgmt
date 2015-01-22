@@ -19,14 +19,27 @@
 }
 
 .vertical-crop {
-    overflow-y: hidden;
+    overflow-y: hidden !important;
+}
+
+.text-white {
+    color: #dddddd;
 }
 
 /* Conference List */
+.navbar-noborder {
+    border-radius: 0 !important;
+}
+
 .settings-panel {
-    background-color: #222222;
-    color: #dddddd;
+    border-right: solid 1px #cccccc;
+    background-color: #eeeeee !important;
+    color: #333333;
     font-size: 11pt;
+}
+
+.settings-panel .settings-panel-content {
+    margin: 10px;
 }
 
 .list-conference-title {
