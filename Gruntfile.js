@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                 // using latest alpha for the moment, because dialogs don't work on linux on 0.11.x
                 //version: '0.11.5',
                 buildDir: './build',
-                platforms: [ /* 'win','osx', 'linux32', */ 'linux64']
+                platforms: [ /* 'win','osx', 'linux32', */ 'linux64'],
                 winIco: "src/images/icon.ico",
                 macZip: true,
                 macIcns: "src/images/icon.icns"
