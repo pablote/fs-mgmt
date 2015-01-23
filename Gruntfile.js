@@ -12,13 +12,16 @@ module.exports = function(grunt) {
                 //version: '0.11.5',
                 buildDir: './build',
                 platforms: [ /* 'win','osx', 'linux32', */ 'linux64']
+                winIco: "src/images/icon.ico",
+                macZip: true,
+                macIcns: "src/images/icon.icns"
             },
             src: ['./src/**/*']
         },
 
         exec: {
             linux: {
-                command: './build/gitp/linux64/gitp',
+                command: './build/fs-mgmt/linux64/fs-mgmt',
                 stdout: true,
                 stderr: true
             }

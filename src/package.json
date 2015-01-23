@@ -4,6 +4,8 @@
     "version": "0.2.0",
     "main": "html/main.html",
     "window": {
+        "title": "Freeswitch Management",
+        "icon": "images/icon.png",
         "toolbar": false,
         "width": 1380,
         "height": 768
