@@ -13,45 +13,55 @@
             this.basicAuthHeader = 'Basic ' + new Buffer(username + ':' + password).toString('base64');
         };
 
-        FreeswitchClient.prototype.list = function() {
-            var self = this;
+        function doGet(self, url) {
             return $q(function (resolve, reject) {
                 $http
-                    .get('http://' + self.server + ':8080/webapi/conference?list', {
+                    .get(url, {
                         headers: { Authorization: self.basicAuthHeader }
                     })
                     .then(function (getResponse) {
+                        if (getResponse.status == 200) {
+                            resolve(getResponse.data);
+                        } else {
+                            reject(getResponse);
+                        }
+                    })
+                    .catch(function (getError) {
+                        reject(getError);
+                    })
+            });
+        }
+
+        FreeswitchClient.prototype.list = function() {
+            var self = this;
+            return $q(function (resolve, reject) {
+                doGet(self, 'http://' + self.server + ':8080/webapi/conference?list')
+                    .then(function(listResponse) {
                         var parser = new FreeswitchListParser();
-                        return parser.parse(getResponse.data);
+                        return parser.parse(listResponse);
                     })
                     .then(function (parseResponse) {
                         resolve({
                             name: self.server,
+                            host: self.server,
+                            username: self.username,
+                            password: self.password,
                             conferences: parseResponse
                         });
                     })
-                    .catch(function (listError) {
-                        reject(listError);
-                    })
+                    .catch(function (error) {
+                        reject(error);
+                    });
             });
         };
 
         FreeswitchClient.prototype.hangup = function(conferenceName, memberId) {
-            var self = this;
             var whattohup = memberId || 'all';
-            return $q(function (resolve, reject) {
-                $http
-                    .get('http://' + self.server + ':8080/webapi/conference?' + conferenceName + ' hup ' + whattohup, {
-                        headers: { Authorization: self.basicAuthHeader }
-                    })
-                    .then(function (hangupResponse) {
-                        console.log(hangupResponse);
-                        resolve();
-                    })
-                    .catch(function (hangupError) {
-                        reject(hangupError);
-                    })
-            });
+            return doGet(this, 'http://' + this.server + ':8080/webapi/conference?' + conferenceName + ' hup ' + whattohup);
+        };
+
+        FreeswitchClient.prototype.recordingCheck = function(conferenceName) {
+            return doGet(this, 'http://' + this.server + ':8080/webapi/conference?' + conferenceName + ' recording check');
         };
 
         return FreeswitchClient;

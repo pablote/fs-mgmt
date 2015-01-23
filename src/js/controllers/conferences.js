@@ -3,7 +3,8 @@
     'use strict';
     var module = angular.module('fsmgmt.controllers.conferences', [
         'fsmgmt.services.LocalStorageService',
-        'fsmgmt.services.freeswitch.FreeswitchRouter'
+        'fsmgmt.services.freeswitch.FreeswitchRouter',
+        'fsmgmt.directives.ngConfirmClick'
     ]);
 
     var consts = {
@@ -16,6 +17,7 @@
 
     module.controller('ConferencesController', ['$scope', 'localStorage', 'freeswitch',
         function ($scope, localStorage, freeswitch) {
+            var gui = require('nw.gui');
             //TODO: for some reason the browser version of moment is not working, investigate further
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
@@ -26,6 +28,8 @@
             };
 
             // default values
+            $scope.isSettingsVisible = true;
+
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.fsServers = value;
             });
@@ -46,6 +50,11 @@
                         $scope.lastRefresh = moment();
                         $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
                         $scope.servers = fsListResponse;
+
+                        //TODO: move to directive
+                        setTimeout(function(){
+                            $('[data-toggle="popover"]').popover();
+                        }, 200);
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred accesing the Freeswitch servers.';
@@ -57,14 +66,15 @@
                     })
             };
 
-            $scope.hangup = function (server, conferenceName, memberId) {
+            $scope.hangup = function (server, conference, member) {
                 freeswitch
-                    .hangup(server, $scope.fsUsername, $scope.fsPassword, conferenceName, memberId)
+                    .hangup(server, conference, member)
                     .then(function (hangupResponse) {
                         var msg = 'Done';
 
                         $scope.messageDialogTitle = 'Hangup';
                         $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = hangupResponse;
                         $('#dlgMessage').modal();
                     })
                     .then(function () {
@@ -78,6 +88,33 @@
                         $scope.messageDialogDetails = error;
                         $('#dlgMessage').modal();
                     });
+            };
+
+            $scope.copyToClipboard = function (text) {
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(text, 'text');
+            };
+
+            $scope.showRecordingStatus = function (server, conference) {
+                freeswitch
+                    .recordingCheck(server, conference)
+                    .then(function (recordingCheckResponse) {
+                        $scope.messageDialogTitle = 'Recording status';
+                        $scope.messageDialogText = recordingCheckResponse;
+                        $('#dlgMessage').modal();
+                    })
+                    .catch(function (error) {
+                        var msg = 'A problem occurred during recording check.';
+
+                        $scope.messageDialogTitle = 'Error';
+                        $scope.messageDialogText = msg;
+                        $scope.messageDialogDetails = error;
+                        $('#dlgMessage').modal();
+                    });
+            };
+
+            $scope.toggleSettings = function () {
+                $scope.isSettingsVisible = !$scope.isSettingsVisible;
             };
 
             //TODO: move this to a directive

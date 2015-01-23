@@ -1,11 +1,13 @@
 {
     "name": "fs-mgmt",
     "description": "Freeswitch management application",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "main": "html/main.html",
     "window": {
+        "title": "Freeswitch Management",
+        "icon": "images/icon.png",
         "toolbar": false,
-        "width": 1280,
+        "width": 1380,
         "height": 768
     },
     "dependencies": {

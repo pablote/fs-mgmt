@@ -31,9 +31,14 @@
             });
         };
 
-        FreeswitchRouter.prototype.hangup = function(server, username, password, conferenceName, memberId) {
-            var client = new FreeswitchClient(server.trim(), username, password);
-            return client.hangup(conferenceName, memberId);
+        FreeswitchRouter.prototype.hangup = function(server, conference, member) {
+            var client = new FreeswitchClient(server.host, server.username, server.password);
+            return client.hangup(conference.name, (member) ? member.id : null);
+        };
+
+        FreeswitchRouter.prototype.recordingCheck = function(server, conference) {
+            var client = new FreeswitchClient(server.host, server.username, server.password);
+            return client.recordingCheck(conference.name);
         };
 
         return new FreeswitchRouter();
