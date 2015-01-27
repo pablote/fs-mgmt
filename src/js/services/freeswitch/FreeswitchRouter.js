@@ -2,7 +2,8 @@
 (function () {
     'use strict';
     var module = angular.module('fsmgmt.services.freeswitch.FreeswitchRouter', [
-        'fsmgmt.services.freeswitch.FreeswitchClient'
+        'fsmgmt.services.freeswitch.FreeswitchClient',
+        'fsmgmt.services.AllSettled'
     ]);
 
     module.factory('freeswitch', function ($q, FreeswitchClient) {
@@ -20,7 +21,7 @@
                     var client = new FreeswitchClient(server.trim(), username, password);
                     responses.push(client.list());
                 });
-
+/*
                 $q.all(responses)
                     .then(function(allResponses) {
                         resolve(allResponses);
@@ -28,6 +29,17 @@
                     .catch(function(error) {
                         reject(error);
                     })
+                    */
+                $q.allSettled(responses)
+                    .then(function(allResponses) {
+                        resolve(allResponses);
+                    })
+                    .catch(function(allResponses) {
+                        resolve(u.filter(allResponses, function (response) {
+                            //TODO: create a Server model, and use object type to filter
+                            return response.hasOwnProperty('name');
+                        }));
+                    });
             });
         };
 
