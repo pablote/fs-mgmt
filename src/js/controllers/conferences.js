@@ -28,6 +28,7 @@
             };
 
             // default values
+            $scope.messageDialog = {};
             $scope.isSettingsVisible = true;
 
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
@@ -59,9 +60,9 @@
                     .catch(function (error) {
                         var msg = 'A problem occurred accesing the Freeswitch servers.';
 
-                        $scope.messageDialogTitle = 'Error';
-                        $scope.messageDialogText = msg;
-                        $scope.messageDialogDetails = error;
+                        $scope.messageDialog.title = 'Error';
+                        $scope.messageDialog.text = msg;
+                        $scope.messageDialog.details = error;
                         $('#dlgMessage').modal();
                     })
             };
@@ -72,9 +73,9 @@
                     .then(function (hangupResponse) {
                         var msg = 'Done';
 
-                        $scope.messageDialogTitle = 'Hangup';
-                        $scope.messageDialogText = msg;
-                        $scope.messageDialogDetails = hangupResponse;
+                        $scope.messageDialog.title = 'Hangup';
+                        $scope.messageDialog.text = msg;
+                        $scope.messageDialog.details = hangupResponse;
                         $('#dlgMessage').modal();
                     })
                     .then(function () {
@@ -83,9 +84,9 @@
                     .catch(function (error) {
                         var msg = 'A problem occurred during hangup.';
 
-                        $scope.messageDialogTitle = 'Error';
-                        $scope.messageDialogText = msg;
-                        $scope.messageDialogDetails = error;
+                        $scope.messageDialog.title = 'Error';
+                        $scope.messageDialog.text = msg;
+                        $scope.messageDialog.details = error;
                         $('#dlgMessage').modal();
                     });
             };
@@ -99,16 +100,16 @@
                 freeswitch
                     .recordingCheck(server, conference)
                     .then(function (recordingCheckResponse) {
-                        $scope.messageDialogTitle = 'Recording status';
-                        $scope.messageDialogText = recordingCheckResponse;
+                        $scope.messageDialog.title = 'Recording status';
+                        $scope.messageDialog.preText = recordingCheckResponse;
                         $('#dlgMessage').modal();
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred during recording check.';
 
-                        $scope.messageDialogTitle = 'Error';
-                        $scope.messageDialogText = msg;
-                        $scope.messageDialogDetails = error;
+                        $scope.messageDialog.title = 'Error';
+                        $scope.messageDialog.text = msg;
+                        $scope.messageDialog.details = error;
                         $('#dlgMessage').modal();
                     });
             };
@@ -127,9 +128,7 @@
             //TODO: move this to a directive
             $('#dlgMessage').on('hidden.bs.modal', function () {
                 $scope.$apply(function() {
-                    $scope.messageDialogTitle = '';
-                    $scope.messageDialogText = '';
-                    $scope.messageDialogDetails = '';
+                    $scope.messageDialog = {};
                 })
             });
 
