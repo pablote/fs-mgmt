@@ -8,6 +8,16 @@
 
     module.controller('MainController', ['$scope',
         function ($scope) {
+            $scope.messageDialog = {};
+
+            $scope.showModal = function(options) {
+                $scope.messageDialog.title = options.title || '';
+                $scope.messageDialog.text = options.text || null;
+                $scope.messageDialog.details = options.details || null;
+                $scope.messageDialog.preText = options.preText || null;
+
+                $('#dlgMessage').modal();
+            }
         }
     ]);
 

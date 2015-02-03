@@ -4,21 +4,23 @@
     var module = angular.module('fsmgmt.controllers.conferences', [
         'fsmgmt.services.LocalStorageService',
         'fsmgmt.services.freeswitch.FreeswitchRouter',
-        'fsmgmt.directives.ngConfirmClick'
+        'fsmgmt.directives.ngConfirmClick',
+        'fsmgmt.directives.ngMomentAgo',
+        'fsmgmt.directives.ngModalClose',
+        'fsmgmt.directives.ngPopover'
     ]);
 
     var consts = {
         StorageKeys: {
-            FreeswitchServers: 'fsServers',
-            FreeswitchUsername: 'fsUsername',
-            FreeswitchPassword: 'fsPassword'
+            FreeswitchServers: 'settings-servers',
+            FreeswitchUsername: 'settings-username',
+            FreeswitchPassword: 'settings-password'
         }
     };
 
     module.controller('ConferencesController', ['$scope', 'localStorage', 'freeswitch',
         function ($scope, localStorage, freeswitch) {
             var gui = require('nw.gui');
-            //TODO: for some reason the browser version of moment is not working, investigate further
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
                 if (Math.abs(moment().diff(this)) < 3000) {
@@ -28,42 +30,36 @@
             };
 
             // default values
-            $scope.messageDialog = {};
             $scope.isSettingsVisible = true;
+            $scope.settings = {};
 
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
-                if (value) $scope.fsServers = value;
+                if (value) $scope.settings.servers = value;
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchUsername).then(function(value) {
-                if (value) $scope.fsUsername = value;
+                if (value) $scope.settings.username = value;
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchPassword).then(function(value) {
-                if (value) $scope.fsPassword = value;
+                if (value) $scope.settings.password = value;
             });
 
             // methods
             $scope.refresh = function () {
                 freeswitch
-                    .list($scope.fsServers, $scope.fsUsername, $scope.fsPassword)
+                    .list($scope.settings.servers, $scope.settings.username, $scope.settings.password)
                     .then(function (fsListResponse) {
                         $scope.lastRefresh = moment();
-                        $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
                         $scope.servers = fsListResponse;
-
-                        //TODO: move to directive
-                        setTimeout(function(){
-                            $('[data-toggle="popover"]').popover();
-                        }, 200);
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred accesing the Freeswitch servers.';
-
-                        $scope.messageDialog.title = 'Error';
-                        $scope.messageDialog.text = msg;
-                        $scope.messageDialog.details = error;
-                        $('#dlgMessage').modal();
+                        $scope.showModal({
+                            title: 'Error',
+                            text: msg,
+                            details: error
+                        });
                     })
             };
 
@@ -72,11 +68,11 @@
                     .hangup(server, conference, member)
                     .then(function (hangupResponse) {
                         var msg = 'Done';
-
-                        $scope.messageDialog.title = 'Hangup';
-                        $scope.messageDialog.text = msg;
-                        $scope.messageDialog.details = hangupResponse;
-                        $('#dlgMessage').modal();
+                        $scope.showModal({
+                            title: 'Hangup',
+                            text: msg,
+                            details: hangupResponse}
+                        );
                     })
                     .then(function () {
                         $scope.refresh();
@@ -84,10 +80,11 @@
                     .catch(function (error) {
                         var msg = 'A problem occurred during hangup.';
 
-                        $scope.messageDialog.title = 'Error';
-                        $scope.messageDialog.text = msg;
-                        $scope.messageDialog.details = error;
-                        $('#dlgMessage').modal();
+                        $scope.showModal({
+                            title: 'Error',
+                            text: msg,
+                            details: error
+                        });
                     });
             };
 
@@ -100,17 +97,19 @@
                 freeswitch
                     .recordingCheck(server, conference)
                     .then(function (recordingCheckResponse) {
-                        $scope.messageDialog.title = 'Recording status';
-                        $scope.messageDialog.preText = recordingCheckResponse;
-                        $('#dlgMessage').modal();
+                        $scope.showModal({
+                            title: 'Recording status',
+                            preText: recordingCheckResponse
+                        });
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred during recording check.';
 
-                        $scope.messageDialog.title = 'Error';
-                        $scope.messageDialog.text = msg;
-                        $scope.messageDialog.details = error;
-                        $('#dlgMessage').modal();
+                        $scope.showModal({
+                            title: 'Error',
+                            text: msg,
+                            details: error
+                        });
                     });
             };
 
@@ -118,30 +117,20 @@
                 $scope.isSettingsVisible = !$scope.isSettingsVisible;
             };
 
-            //TODO: move this to a directive
-            setInterval(function() {
-                $scope.$apply(function() {
-                    if ($scope.lastRefresh) $scope.lastRefreshString = $scope.lastRefresh.fromNowOrNow();
-                });
-            }, 3000);
-
-            //TODO: move this to a directive
-            $('#dlgMessage').on('hidden.bs.modal', function () {
-                $scope.$apply(function() {
-                    $scope.messageDialog = {};
-                })
-            });
+            $scope.onModalClose = function () {
+                $scope.messageDialog = {};
+            };
 
             // watches
-            $scope.$watch("fsServers", function (newValue, oldValue) {
+            $scope.$watch("settings.servers", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchServers, newValue);
             });
 
-            $scope.$watch("fsUsername", function (newValue, oldValue) {
+            $scope.$watch("settings.username", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchUsername, newValue);
             });
 
-            $scope.$watch("fsPassword", function (newValue, oldValue) {
+            $scope.$watch("settings.password", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchPassword, newValue);
             })
         }

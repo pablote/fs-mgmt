@@ -4,6 +4,8 @@
     var module = angular.module('fsmgmt.services.LocalStorageService', []);
 
     module.factory('localStorage', function ($q) {
+        var u = require('underscore');
+
         var LocalStorageService = function () {
         };
 
@@ -16,7 +18,10 @@
 
         LocalStorageService.prototype.set = function(key, value) {
             return $q(function (resolve, reject) {
-                localStorage.setItem(key, value);
+                if (!u.isNull(value) && !u.isUndefined(value)) {
+                    localStorage.setItem(key, value);
+                }
+
                 resolve();
             });
         };
