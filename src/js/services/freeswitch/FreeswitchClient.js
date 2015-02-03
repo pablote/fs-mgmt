@@ -2,10 +2,11 @@
 (function () {
     'use strict';
     var module = angular.module('fsmgmt.services.freeswitch.FreeswitchClient', [
-        'fsmgmt.services.freeswitch.parsers.ListParser'
+        'fsmgmt.services.freeswitch.parsers.ListParser',
+        'fsmgmt.services.freeswitch.models.Server'
     ]);
 
-    module.factory('FreeswitchClient', function ($q, $http, FreeswitchListParser) {
+    module.factory('FreeswitchClient', function ($q, $http, FreeswitchListParser, FreeswitchServer) {
         var FreeswitchClient = function (server, username, password) {
             this.server = server;
             this.username = username;
@@ -41,13 +42,13 @@
                         return parser.parse(listResponse);
                     })
                     .then(function (parseResponse) {
-                        resolve({
+                        resolve(new FreeswitchServer({
                             name: self.server,
                             host: self.server,
                             username: self.username,
                             password: self.password,
                             conferences: parseResponse
-                        });
+                        }));
                     })
                     .catch(function (error) {
                         reject(error);

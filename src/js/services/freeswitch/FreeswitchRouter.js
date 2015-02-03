@@ -3,10 +3,11 @@
     'use strict';
     var module = angular.module('fsmgmt.services.freeswitch.FreeswitchRouter', [
         'fsmgmt.services.freeswitch.FreeswitchClient',
+        'fsmgmt.services.freeswitch.models.Server',
         'fsmgmt.services.AllSettled'
     ]);
 
-    module.factory('freeswitch', function ($q, FreeswitchClient) {
+    module.factory('freeswitch', function ($q, FreeswitchClient, FreeswitchServer) {
         var u = require('underscore');
 
         var FreeswitchRouter = function () {
@@ -36,8 +37,7 @@
                     })
                     .catch(function(allResponses) {
                         resolve(u.filter(allResponses, function (response) {
-                            //TODO: create a Server model, and use object type to filter
-                            return response.hasOwnProperty('name');
+                            return response instanceof FreeswitchServer;
                         }));
                     });
             });
