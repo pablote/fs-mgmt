@@ -6,7 +6,6 @@
         'fsmgmt.services.freeswitch.FreeswitchRouter',
         'fsmgmt.directives.ngConfirmClick',
         'fsmgmt.directives.ngMomentAgo',
-        'fsmgmt.directives.ngModalClose',
         'fsmgmt.directives.ngPopover'
     ]);
 
@@ -14,12 +13,13 @@
         StorageKeys: {
             FreeswitchServers: 'settings-servers',
             FreeswitchUsername: 'settings-username',
-            FreeswitchPassword: 'settings-password'
+            FreeswitchPassword: 'settings-password',
+            AutoRefreshInterval: 'settings-autorefresh-interval'
         }
     };
 
-    module.controller('ConferencesController', ['$scope', 'localStorage', 'freeswitch',
-        function ($scope, localStorage, freeswitch) {
+    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'freeswitch',
+        function ($scope, $interval, localStorage, freeswitch) {
             var gui = require('nw.gui');
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
@@ -31,7 +31,9 @@
 
             // default values
             $scope.isSettingsVisible = true;
+            $scope.isAutoRefreshEnabled = false;
             $scope.settings = {};
+            $scope.autoRefresh = null;
 
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.settings.servers = value;
@@ -43,6 +45,13 @@
 
             localStorage.get(consts.StorageKeys.FreeswitchPassword).then(function(value) {
                 if (value) $scope.settings.password = value;
+            });
+
+            localStorage.get(consts.StorageKeys.AutoRefreshInterval).then(function(value) {
+                if (value)
+                    $scope.settings.autoRefreshInterval = value;
+                else
+                    $scope.settings.autoRefreshInterval = 5;
             });
 
             // methods
@@ -117,8 +126,17 @@
                 $scope.isSettingsVisible = !$scope.isSettingsVisible;
             };
 
-            $scope.onModalClose = function () {
-                $scope.messageDialog = {};
+            $scope.toggleAutoRefresh = function () {
+                $scope.isAutoRefreshEnabled = !$scope.isAutoRefreshEnabled;
+
+                if ($scope.isAutoRefreshEnabled) {
+                    $scope.lastRefresh = null;
+                    $scope.autoRefresh = $interval(function() {
+                        $scope.refresh();
+                    }, $scope.settings.autoRefreshInterval * 1000);
+                } else {
+                    $interval.cancel($scope.autoRefresh);
+                }
             };
 
             // watches
@@ -132,6 +150,10 @@
 
             $scope.$watch("settings.password", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchPassword, newValue);
+            });
+
+            $scope.$watch("settings.autoRefreshInterval", function (newValue, oldValue) {
+                localStorage.set(consts.StorageKeys.AutoRefreshInterval, newValue);
             })
         }
     ]);

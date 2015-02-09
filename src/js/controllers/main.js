@@ -3,7 +3,8 @@
     'use strict';
     var module = angular.module('fsmgmt.controllers.main', [
         'ui.router',
-        'fsmgmt.controllers.conferences'
+        'fsmgmt.controllers.conferences',
+        'fsmgmt.directives.ngModalClose'
     ]);
 
     module.controller('MainController', ['$scope',
@@ -17,7 +18,11 @@
                 $scope.messageDialog.preText = options.preText || null;
 
                 $('#dlgMessage').modal();
-            }
+            };
+
+            $scope.onModalClose = function () {
+                $scope.messageDialog = {};
+            };
         }
     ]);
 
