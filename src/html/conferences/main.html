@@ -1,4 +1,4 @@
-<div id="wrapper" ng-class="{ toggled: !isSettingsVisible }">
+<div id="wrapper" class="height-all" ng-class="{ toggled: !isSettingsVisible }">
     <!--
         Left column
     -->
@@ -36,7 +36,7 @@
     <!--
         Main body
     -->
-    <div id="page-content-wrapper" class="height-all vertical-scroll no-padding">
+    <div id="page-content-wrapper" class="height-all no-padding">
         <nav class="navbar navbar-inverse navbar-noborder">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -68,7 +68,7 @@
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid vertical-scroll height-all-expect-nav">
             <div class="row">
                 <div class="col-md-12">
                     <div ng-repeat="server in servers">
