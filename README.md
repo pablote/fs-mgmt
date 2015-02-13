@@ -15,6 +15,8 @@ Binaries for every platform are available on the [releases page](https://github.
 
 #screenshots
 
-![Conference list](/screenshots/v0.3.0/1.png?raw=true "Conference list")
+![Conference list](/screenshots/v0.4.0/1.png?raw=true "Conference list")
 
-![Conference list with settings](/screenshots/v0.3.0/2.png?raw=true "Conference list")
+![Conference list with settings](/screenshots/v0.4.0/2.png?raw=true "Conference list")
+
+![Conference list with settings](/screenshots/v0.4.0/3.png?raw=true "Conference list")
