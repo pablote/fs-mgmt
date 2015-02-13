@@ -96,6 +96,28 @@
     background: none;
 }
 
+/* Added so that it's always shown/hidden based on setting
+*/
+
+#wrapper {
+    padding-left: 250px;
+}
+
+#wrapper.toggled {
+    padding-left: 0;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 0;
+}
+
+/**/
+
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 250px;

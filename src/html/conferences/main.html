@@ -1,4 +1,4 @@
-<div id="wrapper" ng-class="{ toggled: !isSettingsVisible }">
+<div id="wrapper" class="height-all" ng-class="{ toggled: !isSettingsVisible }">
     <!--
         Left column
     -->
@@ -7,15 +7,28 @@
             <h4>SETTINGS</h4>
             <div class="form-group">
                 <label for="inputServers">Servers</label>
-                <input ng-model="fsServers" type="text" class="form-control" id="inputServers" placeholder="Comma separated list of servers">
+                <input ng-model="settings.servers" type="text" class="form-control" id="inputServers" placeholder="Comma separated list of servers">
             </div>
             <div class="form-group">
                 <label for="inputUsername">Username</label>
-                <input ng-model="fsUsername" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                <input ng-model="settings.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
             </div>
             <div class="form-group">
                 <label for="inputPassword">Password</label>
-                <input ng-model="fsPassword" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input ng-model="settings.password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
+
+                <div class="input-group">
+                    <input ng-model="settings.autoRefreshInterval" type="text" class="form-control" id="inputAutoRefreshInterval">
+
+                    <span class="input-group-btn">
+                        <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
+                            {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
+                        </button>
+                    </span>
+                </div><!-- /input-group -->
             </div>
         </form>
     </div>
@@ -23,7 +36,7 @@
     <!--
         Main body
     -->
-    <div id="page-content-wrapper" class="height-all vertical-scroll no-padding">
+    <div id="page-content-wrapper" class="height-all no-padding">
         <nav class="navbar navbar-inverse navbar-noborder">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -39,17 +52,23 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-left">
-                        <button ng-click="toggleSettings()" class="btn btn-default">{{ isSettingsVisible ? "Hide" : "Show" }} Settings</button>
+                        <button ng-click="toggleSettings()" class="btn btn-default" ng-class="{ active: isSettingsVisible }">
+                            {{ isSettingsVisible ? "Hide" : "Show" }} Settings
+                        </button>
                     </form>
                     <form class="navbar-form navbar-right">
-                        <span class="text-white" ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>
-                        <button ng-click="refresh()" class="btn btn-primary">Refresh</button>
+                        <!--<span class="text-white" ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>-->
+                        <span class="text-white" data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
+                        </span>
+                        <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
+                            {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
+                        </button>
                     </form>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
 
-        <div class="container-fluid">
+        <div class="container-fluid vertical-scroll height-all-expect-nav">
             <div class="row">
                 <div class="col-md-12">
                     <div ng-repeat="server in servers">
@@ -69,7 +88,7 @@
                                 <button ng-confirm-click="hangup(server, conference, null)"
                                         class="btn btn-default btn-sm">Hangup all</button>
 
-                                <button class="btn btn-default btn-sm" style="white-space: nowrap"
+                                <button class="btn btn-default btn-sm" style="white-space: nowrap" ng-popover
                                         data-container="body" data-toggle="popover" data-placement="right"
                                         data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
 
@@ -95,7 +114,7 @@
                                     <td>{{ member.participantRegister }}</td>
                                     <td>
                                         {{ member.channelId }}
-                                        <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-sm">
+                                        <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs">
                                             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                         </button>
                                     </td>
@@ -104,7 +123,7 @@
                                     <td>{{ member.entitlements }}</td>
                                     <td>
                                         <button ng-confirm-click="hangup(server, conference, member)"
-                                                class="btn btn-default btn-sm">Hangup</button>
+                                                class="btn btn-default btn-xs">Hangup</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -115,28 +134,4 @@
             </div>
         </div>
     </div>
-
-    <!--
-        Message Dialog
-    -->
-    <div id="dlgMessage" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">{{ messageDialogTitle }}</h4>
-                </div>
-                <div class="modal-body">
-                    <p>{{ messageDialogText }}</p>
-                    <a ng-show="messageDialogDetails" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
-                    <div ng-show="messageDialogDetails" class="collapse" id="dlgMessageDetails">
-                        <pre>{{ messageDialogDetails | json }}</pre>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
 </div>

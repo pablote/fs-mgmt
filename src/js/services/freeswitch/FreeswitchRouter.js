@@ -2,10 +2,12 @@
 (function () {
     'use strict';
     var module = angular.module('fsmgmt.services.freeswitch.FreeswitchRouter', [
-        'fsmgmt.services.freeswitch.FreeswitchClient'
+        'fsmgmt.services.freeswitch.FreeswitchClient',
+        'fsmgmt.services.freeswitch.models.Server',
+        'fsmgmt.services.AllSettled'
     ]);
 
-    module.factory('freeswitch', function ($q, FreeswitchClient) {
+    module.factory('freeswitch', function ($q, FreeswitchClient, FreeswitchServer) {
         var u = require('underscore');
 
         var FreeswitchRouter = function () {
@@ -20,7 +22,7 @@
                     var client = new FreeswitchClient(server.trim(), username, password);
                     responses.push(client.list());
                 });
-
+/*
                 $q.all(responses)
                     .then(function(allResponses) {
                         resolve(allResponses);
@@ -28,6 +30,16 @@
                     .catch(function(error) {
                         reject(error);
                     })
+                    */
+                $q.allSettled(responses)
+                    .then(function(allResponses) {
+                        resolve(allResponses);
+                    })
+                    .catch(function(allResponses) {
+                        resolve(u.filter(allResponses, function (response) {
+                            return response instanceof FreeswitchServer;
+                        }));
+                    });
             });
         };
 

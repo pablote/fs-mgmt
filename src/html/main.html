@@ -12,6 +12,31 @@
         <div ui-view class="height-all">
         </div>
 
+        <!--
+            Message Dialog
+        -->
+        <div ng-modal-close="onModalClose()" id="dlgMessage" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{{ messageDialog.title }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ messageDialog.text }}</p>
+                        <pre ng-show="messageDialog.preText">{{ messageDialog.preText }}</pre>
+                        <a ng-show="messageDialog.details" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
+                        <div ng-show="messageDialog.details" class="collapse" id="dlgMessageDetails">
+                            <pre>{{ messageDialog.details | json }}</pre>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
         <script src="../js/lib/jquery.js"></script>
         <script src="../js/lib/bootstrap.js"></script>
         <script src="../js/lib/moment.js"></script>
@@ -22,12 +47,17 @@
         <script src="../js/controllers/main.js"></script>
         <script src="../js/controllers/conferences.js"></script>
         <script src="../js/directives/ngConfirmClick.js"></script>
+        <script src="../js/directives/ngMomentAgo.js"></script>
+        <script src="../js/directives/ngModalClose.js"></script>
+        <script src="../js/directives/ngPopover.js"></script>
+        <script src="../js/services/AllSettled.js"></script>
         <script src="../js/services/LocalStorageService.js"></script>
         <script src="../js/services/freeswitch/FreeswitchRouter.js"></script>
         <script src="../js/services/freeswitch/FreeswitchClient.js"></script>
         <script src="../js/services/freeswitch/parsers/ListParser.js"></script>
         <script src="../js/services/freeswitch/models/Member.js"></script>
         <script src="../js/services/freeswitch/models/Conference.js"></script>
+        <script src="../js/services/freeswitch/models/Server.js"></script>
 
     </body>
 </html>

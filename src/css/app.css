@@ -6,6 +6,10 @@
     height: 100% !important;
 }
 
+.height-all-expect-nav {
+    height: calc(100% - 72px);
+}
+
 .no-padding {
     padding: 0 !important;
 }
@@ -15,7 +19,7 @@
 }
 
 .vertical-scroll {
-    overflow-y: auto;
+    overflow-y: auto !important;
 }
 
 .vertical-crop {
