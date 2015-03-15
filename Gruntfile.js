@@ -8,10 +8,9 @@ module.exports = function(grunt) {
 
         nodewebkit: {
             options: {
-                // using latest alpha for the moment, because dialogs don't work on linux on 0.11.x
-                //version: '0.11.5',
+                version: '0.12.0',
                 buildDir: './build',
-                platforms: [ /* 'win','osx', 'linux32', */ 'linux64'],
+                platforms: [ 'osx64' /*, 'win','osx', 'linux32', 'linux64' */],
                 winIco: "src/images/icon.ico",
                 macZip: true,
                 macIcns: "src/images/icon.icns"
@@ -24,6 +23,11 @@ module.exports = function(grunt) {
                 command: './build/fs-mgmt/linux64/fs-mgmt',
                 stdout: true,
                 stderr: true
+            },
+            mac: {
+                command: 'open build/fs-mgmt/osx64/fs-mgmt.app/',
+                stdout: true,
+                stderr: true
             }
         }
     });
@@ -31,7 +35,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.loadNpmTasks('grunt-exec');
     grunt.registerTask('build', ['nodewebkit']);
-    grunt.registerTask('run', ['build', 'exec:linux']);
+    grunt.registerTask('run', ['build', 'exec:mac']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
+    grunt.registerTask('run:mac', ['build', 'exec:mac']);
     grunt.registerTask('default', []);
 };
