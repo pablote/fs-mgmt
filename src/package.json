@@ -1,10 +1,10 @@
 {
     "name": "fs-mgmt",
-    "description": "Freeswitch management application",
+    "description": "Freeswitch management desktop application",
     "version": "0.4.0",
     "main": "html/main.html",
     "window": {
-        "title": "Freeswitch Management",
+        "title": "Freeswitch Desktop",
         "icon": "images/icon.png",
         "toolbar": false,
         "width": 1380,

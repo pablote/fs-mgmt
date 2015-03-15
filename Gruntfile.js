@@ -8,6 +8,7 @@ module.exports = function(grunt) {
 
         nodewebkit: {
             options: {
+                appName: 'Freeswitch Desktop',
                 version: '0.12.0',
                 buildDir: './build',
                 platforms: [ 'osx64' /*, 'win','osx', 'linux32', 'linux64' */],
@@ -20,12 +21,12 @@ module.exports = function(grunt) {
 
         exec: {
             linux: {
-                command: './build/fs-mgmt/linux64/fs-mgmt',
+                command: './build/Freeswitch\\ Desktop/linux64/Freeswitch\\ Desktop',
                 stdout: true,
                 stderr: true
             },
             mac: {
-                command: 'open build/fs-mgmt/osx64/fs-mgmt.app/',
+                command: 'open build/Freeswitch\\ Desktop/osx64/Freeswitch\\ Desktop.app/',
                 stdout: true,
                 stderr: true
             }
