@@ -34,7 +34,7 @@
             $scope.isSettingsVisible = true;
             $scope.isAutoRefreshEnabled = false;
             $scope.settings = {};
-            $scope.autoRefresh = null;
+            $scope.autoRefresh = null; //interval object
 
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.settings.servers = value;
@@ -129,6 +129,7 @@
                     }, $scope.settings.autoRefreshInterval * 1000);
                 } else {
                     $interval.cancel($scope.autoRefresh);
+                    delete $scope.autoRefresh;
                 }
             };
 
