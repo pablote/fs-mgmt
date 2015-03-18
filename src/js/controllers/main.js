@@ -17,7 +17,7 @@
 
                 var nativeMenuBar = new gui.Menu({type: "menubar"});
                 nativeMenuBar.createMacBuiltin("Freeswitch Desktop", {
-                    hideEdit: true,
+                    hideEdit: false,
                     hideWindow: true
                 });
 

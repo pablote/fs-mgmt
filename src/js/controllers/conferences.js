@@ -3,6 +3,7 @@
     'use strict';
     var module = angular.module('fsmgmt.controllers.conferences', [
         'fsmgmt.services.LocalStorageService',
+        'fsmgmt.services.GrowlService',
         'fsmgmt.services.freeswitch.FreeswitchRouter',
         'fsmgmt.directives.ngConfirmClick',
         'fsmgmt.directives.ngMomentAgo',
@@ -18,8 +19,8 @@
         }
     };
 
-    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'freeswitch',
-        function ($scope, $interval, localStorage, freeswitch) {
+    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'growl', 'freeswitch',
+        function ($scope, $interval, localStorage, growl, freeswitch) {
             var gui = require('nw.gui');
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
@@ -76,30 +77,22 @@
                 freeswitch
                     .hangup(server, conference, member)
                     .then(function (hangupResponse) {
-                        var msg = 'Done';
-                        $scope.showModal({
-                            title: 'Hangup',
-                            text: msg,
-                            details: hangupResponse}
-                        );
+                        growl.info('Done', 'Hangup');
                     })
                     .then(function () {
                         $scope.refresh();
                     })
                     .catch(function (error) {
-                        var msg = 'A problem occurred during hangup.';
-
-                        $scope.showModal({
-                            title: 'Error',
-                            text: msg,
-                            details: error
-                        });
+                        var msg = 'A problem occurred during hangup.' + error.toString();
+                        growl.info(msg, 'Hangup Error');
                     });
             };
 
             $scope.copyToClipboard = function (text) {
                 var clipboard = gui.Clipboard.get();
                 clipboard.set(text, 'text');
+
+                growl.info(text, 'Copied to Clipboard');
             };
 
             $scope.showRecordingStatus = function (server, conference) {
