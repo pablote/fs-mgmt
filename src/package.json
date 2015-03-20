@@ -7,7 +7,7 @@
         "title": "Freeswitch Desktop",
         "icon": "images/icon.png",
         "toolbar": false,
-        "width": 1380,
+        "width": 1280,
         "height": 768
     },
     "dependencies": {
