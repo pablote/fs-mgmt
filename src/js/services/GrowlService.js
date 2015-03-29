@@ -8,37 +8,19 @@
         };
 
         GrowlService.prototype.info = function(message, title) {
-            $.growl({ title: title, message: message });
+            $.growl({ title: title || '', message: message || ''});
         };
 
         GrowlService.prototype.error = function(message, title) {
-            var payload = { message: message };
-
-            if (title) {
-                payload.title = title;
-            }
-
-            $.growl.error(payload);
+            $.growl.error({ title: title || '', message: message || ''});
         };
 
         GrowlService.prototype.notice = function(message, title) {
-            var payload = { message: message };
-
-            if (title) {
-                payload.title = title;
-            }
-
-            $.growl.notice(payload);
+            $.growl.notice({ title: title || '', message: message || ''});
         };
 
         GrowlService.prototype.warn = function(message, title) {
-            var payload = { message: message };
-
-            if (title) {
-                payload.title = title;
-            }
-
-            $.growl.warning(payload);
+            $.growl.warning({ title: title || '', message: message || ''});
         };
 
         return new GrowlService();
