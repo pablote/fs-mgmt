@@ -12,10 +12,10 @@
 
     var consts = {
         StorageKeys: {
-            FreeswitchServers: 'settings-servers',
-            FreeswitchUsername: 'settings-username',
-            FreeswitchPassword: 'settings-password',
-            AutoRefreshInterval: 'settings-autorefresh-interval'
+            FreeswitchServerList: 'settings-server-list',
+            FreeswitchUsername: 'settings-username-v2',
+            FreeswitchPassword: 'settings-password-v2',
+            AutoRefreshInterval: 'settings-autorefresh-interval-v2'
         }
     };
 
@@ -39,8 +39,11 @@
             $scope.autoRefresh = null; //interval object
             $scope.servers = [];
 
-            localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
-                if (value) $scope.settings.servers = value;
+            localStorage.get(consts.StorageKeys.FreeswitchServerList).then(function(value) {
+                if (value)
+                    $scope.settings.serverList = value;
+                else
+                    $scope.settings.serverList = [];
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchUsername).then(function(value) {
@@ -62,10 +65,10 @@
             $scope.refresh = function () {
                 var servers = [];
 
-                u.each($scope.settings.servers.split(','), function (serverStr) {
+                u.each($scope.settings.serverList, function (server) {
                     servers.push({
-                        name: serverStr.trim(),
-                        host: serverStr.trim(),
+                        name: server.name,
+                        host: server.host,
                         username: $scope.settings.username,
                         password: $scope.settings.password
                     });
@@ -147,10 +150,31 @@
                 }
             };
 
+            $scope.addServer = function () {
+                var host = prompt('Server host:');
+
+                if (host) {
+                    var existingServers = u.where($scope.settings.serverList, { name: host });
+
+                    if (existingServers.length === 0) {
+                        $scope.settings.serverList.push({
+                            name: host,
+                            host: host,
+                        });
+                    } else {
+                        alert ('There\'s already a server by that name');
+                    }
+                }
+            };
+
+            $scope.removeServer = function (server) {
+                $scope.settings.serverList = u.without($scope.settings.serverList, server);
+            };
+
             // watches
-            $scope.$watch("settings.servers", function (newValue, oldValue) {
-                localStorage.set(consts.StorageKeys.FreeswitchServers, newValue);
-            });
+            $scope.$watch("settings.serverList", function (newValue, oldValue) {
+                localStorage.set(consts.StorageKeys.FreeswitchServerList, newValue);
+            }, true);
 
             $scope.$watch("settings.username", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchUsername, newValue);
