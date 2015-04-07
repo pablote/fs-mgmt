@@ -108,8 +108,7 @@
                                     <th>Id</th>
                                     <th>Register</th>
                                     <th>Channel Id</th>
-                                    <th>Caller Id Name</th>
-                                    <th>Caller Id Number</th>
+                                    <th>Caller Id</th>
                                     <th>Entitlements</th>
                                     <th>Actions</th>
                                 </tr>
@@ -124,8 +123,11 @@
                                             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                         </button>
                                     </td>
-                                    <td>{{ member.callerIdName }}</td>
-                                    <td>{{ member.callerIdNumber }}</td>
+                                    <td>{{ member.callerIdName }}
+                                        <span ng-show="member.callerIdNumber" style="color: #888888">
+                                            ({{ member.callerIdNumber }})
+                                        </span>
+                                    </td>
                                     <td>{{ member.entitlements }}</td>
                                     <td>
                                         <button ng-confirm-click="hangup(server, conference, member)"
