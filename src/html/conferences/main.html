@@ -68,7 +68,9 @@
                     <div ng-repeat="server in servers">
                         <h3>{{ server.name }}</h3>
 
-                        <span ng-show="server.conferences.length == 0">No conferences on this server</span>
+                        <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
+
+                        <span ng-show="!server.error && server.conferences.length == 0">No conferences on this server</span>
 
                         <div ng-repeat="conference in server.conferences">
 

@@ -13,43 +13,42 @@
         var FreeswitchRouter = function () {
         };
 
-        FreeswitchRouter.prototype.list = function(servers, username, password) {
+        FreeswitchRouter.prototype.list = function(servers) {
             return $q(function (resolve, reject) {
                 var responses = [];
-                var serverList = servers.split(',');
 
-                u.each(serverList, function (server) {
-                    var client = new FreeswitchClient(server.trim(), username, password);
+                u.each(servers, function (server) {
+                    var client = new FreeswitchClient(server);
                     responses.push(client.list());
                 });
-/*
-                $q.all(responses)
-                    .then(function(allResponses) {
-                        resolve(allResponses);
-                    })
-                    .catch(function(error) {
-                        reject(error);
-                    })
-                    */
+
                 $q.allSettled(responses)
                     .then(function(allResponses) {
                         resolve(allResponses);
                     })
                     .catch(function(allResponses) {
-                        resolve(u.filter(allResponses, function (response) {
-                            return response instanceof FreeswitchServer;
+                        resolve(u.map(allResponses, function (response) {
+                            if (response instanceof FreeswitchServer) {
+                                return response;
+                            } else {
+                                return {
+                                    name: response.server.name,
+                                    host: response.server.host,
+                                    error: (response.status === 0) ? "Connection refused" : '(' + response.status + ') ' + response.statusText
+                                }
+                            }
                         }));
                     });
             });
         };
 
         FreeswitchRouter.prototype.hangup = function(server, conference, member) {
-            var client = new FreeswitchClient(server.host, server.username, server.password);
+            var client = new FreeswitchClient(server);
             return client.hangup(conference.name, (member) ? member.id : null);
         };
 
         FreeswitchRouter.prototype.recordingCheck = function(server, conference) {
-            var client = new FreeswitchClient(server.host, server.username, server.password);
+            var client = new FreeswitchClient(server);
             return client.recordingCheck(conference.name);
         };
 

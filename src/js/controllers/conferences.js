@@ -22,6 +22,8 @@
     module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'growl', 'freeswitch',
         function ($scope, $interval, localStorage, growl, freeswitch) {
             var gui = require('nw.gui');
+            var u = require('underscore');
+
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
                 if (Math.abs(moment().diff(this)) < 3000) {
@@ -35,6 +37,7 @@
             $scope.isAutoRefreshEnabled = false;
             $scope.settings = {};
             $scope.autoRefresh = null; //interval object
+            $scope.servers = [];
 
             localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
                 if (value) $scope.settings.servers = value;
@@ -57,8 +60,19 @@
 
             // methods
             $scope.refresh = function () {
+                var servers = [];
+
+                u.each($scope.settings.servers.split(','), function (serverStr) {
+                    servers.push({
+                        name: serverStr.trim(),
+                        host: serverStr.trim(),
+                        username: $scope.settings.username,
+                        password: $scope.settings.password
+                    });
+                });
+
                 freeswitch
-                    .list($scope.settings.servers, $scope.settings.username, $scope.settings.password)
+                    .list(servers)
                     .then(function (fsListResponse) {
                         $scope.lastRefresh = moment();
                         $scope.servers = fsListResponse;
