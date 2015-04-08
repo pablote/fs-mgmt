@@ -6,16 +6,29 @@
         <form class="settings-panel-content">
             <h4>SETTINGS</h4>
             <div class="form-group">
-                <label for="inputServers">Servers</label>
-                <input ng-model="settings.servers" type="text" class="form-control" id="inputServers" placeholder="Comma separated list of servers">
+                <label>Servers</label>
+                <ul class="server-list">
+                    <li class="server-list-item" ng-repeat="server in settings.serverList track by server.name">
+                        {{ server.name }}
+                        <div class="server-list-item-remove" ng-click="removeServer(server)" ng-show="!autoRefresh">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </div>
+                    </li>
+                </ul>
+                <button ng-click="addServer()" ng-disabled="autoRefresh" class="btn btn-sm btn-default">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add
+                </button>
             </div>
             <div class="form-group">
                 <label for="inputUsername">Username</label>
-                <input ng-model="settings.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+                <input ng-model="settings.username" ng-disabled="autoRefresh"
+                       type="text" class="form-control" id="inputUsername" placeholder="Username">
             </div>
             <div class="form-group">
                 <label for="inputPassword">Password</label>
-                <input ng-model="settings.password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+                <input ng-model="settings.password" ng-disabled="autoRefresh"
+                       type="password" class="form-control" id="inputPassword" placeholder="Password">
             </div>
             <div class="form-group">
                 <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
@@ -38,19 +51,10 @@
     -->
     <div id="page-content-wrapper" class="height-all no-padding">
         <nav class="navbar navbar-inverse navbar-noborder">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">fs-mgmt</a>
-                </div>
+            <div class="container-fluid no-padding-left">
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse no-padding" id="bs-example-navbar-collapse-1">
                     <form class="navbar-form navbar-left">
                         <button ng-click="toggleSettings()" class="btn btn-default" ng-class="{ active: isSettingsVisible }">
                             {{ isSettingsVisible ? "Hide" : "Show" }} Settings
@@ -74,7 +78,9 @@
                     <div ng-repeat="server in servers">
                         <h3>{{ server.name }}</h3>
 
-                        <span ng-show="server.conferences.length == 0">No conferences on this server</span>
+                        <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
+
+                        <span ng-show="!server.error && server.conferences.length == 0">No conferences on this server</span>
 
                         <div ng-repeat="conference in server.conferences">
 
@@ -102,8 +108,7 @@
                                     <th>Id</th>
                                     <th>Register</th>
                                     <th>Channel Id</th>
-                                    <th>Caller Id Name</th>
-                                    <th>Caller Id Number</th>
+                                    <th>Caller Id</th>
                                     <th>Entitlements</th>
                                     <th>Actions</th>
                                 </tr>
@@ -118,8 +123,11 @@
                                             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                         </button>
                                     </td>
-                                    <td>{{ member.callerIdName }}</td>
-                                    <td>{{ member.callerIdNumber }}</td>
+                                    <td>{{ member.callerIdName }}
+                                        <span ng-show="member.callerIdNumber" style="color: #888888">
+                                            ({{ member.callerIdNumber }})
+                                        </span>
+                                    </td>
                                     <td>{{ member.entitlements }}</td>
                                     <td>
                                         <button ng-confirm-click="hangup(server, conference, member)"

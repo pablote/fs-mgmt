@@ -3,6 +3,7 @@
     'use strict';
     var module = angular.module('fsmgmt.controllers.conferences', [
         'fsmgmt.services.LocalStorageService',
+        'fsmgmt.services.GrowlService',
         'fsmgmt.services.freeswitch.FreeswitchRouter',
         'fsmgmt.directives.ngConfirmClick',
         'fsmgmt.directives.ngMomentAgo',
@@ -11,16 +12,18 @@
 
     var consts = {
         StorageKeys: {
-            FreeswitchServers: 'settings-servers',
-            FreeswitchUsername: 'settings-username',
-            FreeswitchPassword: 'settings-password',
-            AutoRefreshInterval: 'settings-autorefresh-interval'
+            FreeswitchServerList: 'settings-server-list',
+            FreeswitchUsername: 'settings-username-v2',
+            FreeswitchPassword: 'settings-password-v2',
+            AutoRefreshInterval: 'settings-autorefresh-interval-v2'
         }
     };
 
-    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'freeswitch',
-        function ($scope, $interval, localStorage, freeswitch) {
+    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'growl', 'freeswitch',
+        function ($scope, $interval, localStorage, growl, freeswitch) {
             var gui = require('nw.gui');
+            var u = require('underscore');
+
             window.moment = require('moment');
             window.moment.fn.fromNowOrNow = function (a) {
                 if (Math.abs(moment().diff(this)) < 3000) {
@@ -33,10 +36,14 @@
             $scope.isSettingsVisible = true;
             $scope.isAutoRefreshEnabled = false;
             $scope.settings = {};
-            $scope.autoRefresh = null;
+            $scope.autoRefresh = null; //interval object
+            $scope.servers = [];
 
-            localStorage.get(consts.StorageKeys.FreeswitchServers).then(function(value) {
-                if (value) $scope.settings.servers = value;
+            localStorage.get(consts.StorageKeys.FreeswitchServerList).then(function(value) {
+                if (value)
+                    $scope.settings.serverList = value;
+                else
+                    $scope.settings.serverList = [];
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchUsername).then(function(value) {
@@ -56,8 +63,19 @@
 
             // methods
             $scope.refresh = function () {
+                var servers = [];
+
+                u.each($scope.settings.serverList, function (server) {
+                    servers.push({
+                        name: server.name,
+                        host: server.host,
+                        username: $scope.settings.username,
+                        password: $scope.settings.password
+                    });
+                });
+
                 freeswitch
-                    .list($scope.settings.servers, $scope.settings.username, $scope.settings.password)
+                    .list(servers)
                     .then(function (fsListResponse) {
                         $scope.lastRefresh = moment();
                         $scope.servers = fsListResponse;
@@ -76,30 +94,22 @@
                 freeswitch
                     .hangup(server, conference, member)
                     .then(function (hangupResponse) {
-                        var msg = 'Done';
-                        $scope.showModal({
-                            title: 'Hangup',
-                            text: msg,
-                            details: hangupResponse}
-                        );
+                        growl.info('Done', 'Hangup');
                     })
                     .then(function () {
                         $scope.refresh();
                     })
                     .catch(function (error) {
-                        var msg = 'A problem occurred during hangup.';
-
-                        $scope.showModal({
-                            title: 'Error',
-                            text: msg,
-                            details: error
-                        });
+                        var msg = 'A problem occurred during hangup.' + error.toString();
+                        growl.info(msg, 'Hangup Error');
                     });
             };
 
             $scope.copyToClipboard = function (text) {
                 var clipboard = gui.Clipboard.get();
                 clipboard.set(text, 'text');
+
+                growl.info(text, 'Copied to Clipboard');
             };
 
             $scope.showRecordingStatus = function (server, conference) {
@@ -136,13 +146,35 @@
                     }, $scope.settings.autoRefreshInterval * 1000);
                 } else {
                     $interval.cancel($scope.autoRefresh);
+                    delete $scope.autoRefresh;
                 }
             };
 
+            $scope.addServer = function () {
+                var host = prompt('Server host:');
+
+                if (host) {
+                    var existingServers = u.where($scope.settings.serverList, { name: host });
+
+                    if (existingServers.length === 0) {
+                        $scope.settings.serverList.push({
+                            name: host,
+                            host: host,
+                        });
+                    } else {
+                        alert ('There\'s already a server by that name');
+                    }
+                }
+            };
+
+            $scope.removeServer = function (server) {
+                $scope.settings.serverList = u.without($scope.settings.serverList, server);
+            };
+
             // watches
-            $scope.$watch("settings.servers", function (newValue, oldValue) {
-                localStorage.set(consts.StorageKeys.FreeswitchServers, newValue);
-            });
+            $scope.$watch("settings.serverList", function (newValue, oldValue) {
+                localStorage.set(consts.StorageKeys.FreeswitchServerList, newValue);
+            }, true);
 
             $scope.$watch("settings.username", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.FreeswitchUsername, newValue);

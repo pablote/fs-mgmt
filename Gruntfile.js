@@ -8,10 +8,10 @@ module.exports = function(grunt) {
 
         nodewebkit: {
             options: {
-                // using latest alpha for the moment, because dialogs don't work on linux on 0.11.x
-                //version: '0.11.5',
+                appName: 'Freeswitch Desktop',
+                version: '0.12.0',
                 buildDir: './build',
-                platforms: [ /* 'win','osx', 'linux32', */ 'linux64'],
+                platforms: [ 'osx64' /*, 'win','osx', 'linux32', 'linux64' */],
                 winIco: "src/images/icon.ico",
                 macZip: true,
                 macIcns: "src/images/icon.icns"
@@ -21,7 +21,12 @@ module.exports = function(grunt) {
 
         exec: {
             linux: {
-                command: './build/fs-mgmt/linux64/fs-mgmt',
+                command: './build/Freeswitch\\ Desktop/linux64/Freeswitch\\ Desktop',
+                stdout: true,
+                stderr: true
+            },
+            mac: {
+                command: 'open build/Freeswitch\\ Desktop/osx64/Freeswitch\\ Desktop.app/',
                 stdout: true,
                 stderr: true
             }
@@ -31,7 +36,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.loadNpmTasks('grunt-exec');
     grunt.registerTask('build', ['nodewebkit']);
-    grunt.registerTask('run', ['build', 'exec:linux']);
+    grunt.registerTask('run', ['build', 'exec:mac']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
+    grunt.registerTask('run:mac', ['build', 'exec:mac']);
     grunt.registerTask('default', []);
 };
