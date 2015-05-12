@@ -26,6 +26,9 @@ module.exports = function(grunt) {
             },
             all: {
                 files: {
+                    'app/js/bundle-header.js': [
+                        'bower_components/modernizr/modernizr.js'
+                    ],
                     'app/js/bundle.js': [
                         'bower_components/jquery/dist/jquery.js',
                         'bower_components/bootstrap/dist/js/bootstrap.js',
@@ -59,7 +62,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.registerTask('bundle', ['newer:uglify']);
-    grunt.registerTask('build', ['nodewebkit']);
+    grunt.registerTask('build', ['bundle', 'nodewebkit']);
     grunt.registerTask('run', ['build', 'exec:mac']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);

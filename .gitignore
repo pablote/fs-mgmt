@@ -18,4 +18,4 @@ bower_components
 
 build
 cache
-app/js/bundle.*
+app/js/bundle*
