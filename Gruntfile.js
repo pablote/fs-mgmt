@@ -58,6 +58,15 @@ module.exports = function(grunt) {
             }
         },
 
+        clean: {
+            all: {
+                src: [
+                    'app/js/bundle-header.js.map',
+                    'app/js/bundle.js.map'
+                ]
+            }
+        },
+
         exec: {
             linux: {
                 command: './build/Freeswitch\\ Desktop/linux64/Freeswitch\\ Desktop',
@@ -76,9 +85,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.registerTask('bundle', ['newer:uglify']);
-    grunt.registerTask('build', ['bundle', 'nodewebkit']);
-    grunt.registerTask('run', ['build', 'exec:mac']);
+    grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
     grunt.registerTask('default', []);
