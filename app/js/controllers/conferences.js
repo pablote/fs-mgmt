@@ -40,10 +40,19 @@
             $scope.servers = [];
 
             localStorage.get(consts.StorageKeys.FreeswitchServerList).then(function(value) {
-                if (value)
+                if (value) {
+                    // compatibility, if no enabled property in object, then default it to true
+                    u.each(value, function (server) {
+                        if (!server.hasOwnProperty('enabled')) {
+                            server.enabled = true;
+                        }
+                    });
+
                     $scope.settings.serverList = value;
-                else
+                }
+                else {
                     $scope.settings.serverList = [];
+                }
             });
 
             localStorage.get(consts.StorageKeys.FreeswitchUsername).then(function(value) {
@@ -66,12 +75,14 @@
                 var servers = [];
 
                 u.each($scope.settings.serverList, function (server) {
-                    servers.push({
-                        name: server.name,
-                        host: server.host,
-                        username: $scope.settings.username,
-                        password: $scope.settings.password
-                    });
+                    if (server.enabled) {
+                        servers.push({
+                            name: server.name,
+                            host: server.host,
+                            username: $scope.settings.username,
+                            password: $scope.settings.password
+                        });
+                    }
                 });
 
                 freeswitch

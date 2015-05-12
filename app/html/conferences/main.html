@@ -9,6 +9,7 @@
                 <label>Servers</label>
                 <ul class="server-list">
                     <li class="server-list-item" ng-repeat="server in settings.serverList track by server.name">
+                        <input type="checkbox" ng-model="server.enabled" ng-disabled="autoRefresh" />
                         {{ server.name }}
                         <div class="server-list-item-remove" ng-click="removeServer(server)" ng-show="!autoRefresh">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
