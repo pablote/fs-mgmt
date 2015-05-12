@@ -6,7 +6,7 @@
         'fsmgmt.services.freeswitch.models.Member'
     ]);
 
-    module.factory('FreeswitchListParser', function ($q, $http, FreeswitchConference, FreeswitchMember) {
+    module.factory('FreeswitchListParser', ['$q', '$http', 'FreeswitchConference', 'FreeswitchMember', function ($q, $http, FreeswitchConference, FreeswitchMember) {
         var S = require('string');
         var u = require('underscore');
 
@@ -41,5 +41,5 @@
         };
 
         return FreeswitchListParser;
-    });
+    }]);
 }());

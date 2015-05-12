@@ -37,7 +37,22 @@ module.exports = function(grunt) {
                         'bower_components/angular/angular.js',
                         'bower_components/angular-sanitize/angular-sanitize.js',
                         'bower_components/angular-resource/angular-resource.js',
-                        'bower_components/angular-ui-router/release/angular-ui-router.js'
+                        'bower_components/angular-ui-router/release/angular-ui-router.js',
+                        'src/js/controllers/main.js',
+                        'src/js/controllers/conferences.js',
+                        'src/js/directives/ngConfirmClick.js',
+                        'src/js/directives/ngMomentAgo.js',
+                        'src/js/directives/ngModalClose.js',
+                        'src/js/directives/ngPopover.js',
+                        'src/js/services/AllSettled.js',
+                        'src/js/services/LocalStorageService.js',
+                        'src/js/services/GrowlService.js',
+                        'src/js/services/freeswitch/FreeswitchRouter.js',
+                        'src/js/services/freeswitch/FreeswitchClient.js',
+                        'src/js/services/freeswitch/parsers/ListParser.js',
+                        'src/js/services/freeswitch/models/Member.js',
+                        'src/js/services/freeswitch/models/Conference.js',
+                        'src/js/services/freeswitch/models/Server.js'
                     ]
                 }
             }

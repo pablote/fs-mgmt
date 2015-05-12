@@ -6,7 +6,7 @@
         'fsmgmt.services.freeswitch.models.Server'
     ]);
 
-    module.factory('FreeswitchClient', function ($q, $http, FreeswitchListParser, FreeswitchServer) {
+    module.factory('FreeswitchClient', ['$q', '$http', 'FreeswitchListParser', 'FreeswitchServer', function ($q, $http, FreeswitchListParser, FreeswitchServer) {
         var FreeswitchClient = function (server) {
             this.host = server.host;
             this.username = server.username;
@@ -73,5 +73,5 @@
         };
 
         return FreeswitchClient;
-    });
+    }]);
 }());

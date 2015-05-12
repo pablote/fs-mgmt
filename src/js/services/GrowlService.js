@@ -3,7 +3,7 @@
     'use strict';
     var module = angular.module('fsmgmt.services.GrowlService', []);
 
-    module.factory('growl', function ($q) {
+    module.factory('growl', [function () {
         var GrowlService = function () {
         };
 
@@ -24,5 +24,5 @@
         };
 
         return new GrowlService();
-    });
+    }]);
 }());
