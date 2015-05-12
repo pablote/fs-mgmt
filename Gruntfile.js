@@ -12,11 +12,11 @@ module.exports = function(grunt) {
                 version: '0.12.0',
                 buildDir: './build',
                 platforms: [ 'osx64', 'linux64' ],
-                winIco: "src/images/icon.ico",
+                winIco: "app/images/icon.ico",
                 macZip: true,
-                macIcns: "src/images/icon.icns"
+                macIcns: "app/images/icon.icns"
             },
-            src: ['./src/**/*']
+            src: ['./app/**/*']
         },
 
         exec: {
