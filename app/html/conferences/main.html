@@ -35,7 +35,7 @@
                 <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
 
                 <div class="input-group">
-                    <input ng-model="settings.autoRefreshInterval" type="text" class="form-control" id="inputAutoRefreshInterval">
+                    <input ng-model="settings.autoRefreshInterval" ng-disabled="autoRefresh" type="text" class="form-control" id="inputAutoRefreshInterval">
 
                     <span class="input-group-btn">
                         <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
