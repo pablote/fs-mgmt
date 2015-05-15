@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html class="height-all">
+    <head>
+        <title>Freeswitch Desktop</title>
+        <link rel="stylesheet" href="../css/bundle.css" />
+        <script src="../js/bundle-header.js"></script>
+    </head>
+    <body ng-app="fsmgmt.controllers.main" ng-controller="MainController" class="ng-cloak height-all">
+        <div ui-view class="height-all">
+        </div>
+
+        <!--
+            Message Dialog
+        -->
+        <div ng-modal-close="onModalClose()" id="dlgMessage" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">{{ messageDialog.title }}</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ messageDialog.text }}</p>
+                        <pre ng-show="messageDialog.preText">{{ messageDialog.preText }}</pre>
+                        <a ng-show="messageDialog.details" data-toggle="collapse" href="#dlgMessageDetails">View details</a>
+                        <div ng-show="messageDialog.details" class="collapse" id="dlgMessageDetails">
+                            <pre>{{ messageDialog.details | json }}</pre>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <script src="../js/bundle.js"></script>
+    </body>
+</html>

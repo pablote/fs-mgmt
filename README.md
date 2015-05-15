@@ -1,7 +1,11 @@
 fs-mgmt
 =======
 
-Freeswitch desktop management application
+Simple Freeswitch desktop management application
+
+#binaries
+
+Binaries for every platform are available on the [releases page](https://github.com/pablote/fs-mgmt/releases)
 
 #binaries
 

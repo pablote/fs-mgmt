@@ -6,14 +6,14 @@
         'fsmgmt.services.freeswitch.models.Server'
     ]);
 
-    module.factory('FreeswitchClient', function ($q, $http, FreeswitchListParser, FreeswitchServer) {
+    module.factory('FreeswitchClient', ['$q', '$http', 'FreeswitchListParser', 'FreeswitchServer', function ($q, $http, FreeswitchListParser, FreeswitchServer) {
         var FreeswitchClient = function (server) {
             this.host = server.host;
             this.username = server.username;
             this.password = server.password;
             this.name = server.name;
             this.basicAuthHeader = 'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64');
-            this.requestTimeout = 1000;
+            this.requestTimeout = 1500;
         };
 
         function doGet(self, url) {
@@ -73,5 +73,5 @@
         };
 
         return FreeswitchClient;
-    });
+    }]);
 }());

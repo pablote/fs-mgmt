@@ -7,7 +7,7 @@
         'fsmgmt.services.AllSettled'
     ]);
 
-    module.factory('freeswitch', function ($q, FreeswitchClient, FreeswitchServer) {
+    module.factory('freeswitch', ['$q', 'FreeswitchClient', 'FreeswitchServer', function ($q, FreeswitchClient, FreeswitchServer) {
         var u = require('underscore');
 
         var FreeswitchRouter = function () {
@@ -53,5 +53,5 @@
         };
 
         return new FreeswitchRouter();
-    });
+    }]);
 }());

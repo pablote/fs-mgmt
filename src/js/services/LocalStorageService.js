@@ -3,7 +3,7 @@
     'use strict';
     var module = angular.module('fsmgmt.services.LocalStorageService', []);
 
-    module.factory('localStorage', function ($q) {
+    module.factory('localStorage', ['$q', function ($q) {
         var u = require('underscore');
 
         var LocalStorageService = function () {
@@ -32,5 +32,5 @@
         };
 
         return new LocalStorageService();
-    });
+    }]);
 }());

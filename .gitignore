@@ -10,10 +10,13 @@ lib-cov
 pids
 logs
 results
-.idea
+.idea/workspace.xml
 
 npm-debug.log
 node_modules
+bower_components
 
 build
 cache
+app/js/bundle*
+app/css/bundle*

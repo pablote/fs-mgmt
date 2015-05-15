@@ -11,12 +11,76 @@ module.exports = function(grunt) {
                 appName: 'Freeswitch Desktop',
                 version: '0.12.0',
                 buildDir: './build',
-                platforms: [ 'osx64' /*, 'win','osx', 'linux32', 'linux64' */],
-                winIco: "src/images/icon.ico",
+                platforms: [ 'osx64', 'linux64' ],
+                winIco: "app/images/icon.ico",
                 macZip: true,
-                macIcns: "src/images/icon.icns"
+                macIcns: "app/images/icon.icns"
             },
-            src: ['./src/**/*']
+            src: ['./app/**/*']
+        },
+
+        uglify: {
+            options: {
+                sourceMap: true,
+                sourceMapIncludeSources: true
+            },
+            all: {
+                files: {
+                    'app/js/bundle-header.js': [
+                        'bower_components/modernizr/modernizr.js'
+                    ],
+                    'app/js/bundle.js': [
+                        'bower_components/jquery/dist/jquery.js',
+                        'bower_components/bootstrap/dist/js/bootstrap.js',
+                        'bower_components/jquery-growl/javascripts/jquery.growl.js',
+                        'bower_components/moment/moment.js',
+                        'bower_components/angular/angular.js',
+                        'bower_components/angular-sanitize/angular-sanitize.js',
+                        'bower_components/angular-resource/angular-resource.js',
+                        'bower_components/angular-ui-router/release/angular-ui-router.js',
+                        'src/js/controllers/main.js',
+                        'src/js/controllers/conferences.js',
+                        'src/js/directives/ngConfirmClick.js',
+                        'src/js/directives/ngMomentAgo.js',
+                        'src/js/directives/ngModalClose.js',
+                        'src/js/directives/ngPopover.js',
+                        'src/js/services/AllSettled.js',
+                        'src/js/services/LocalStorageService.js',
+                        'src/js/services/GrowlService.js',
+                        'src/js/services/freeswitch/FreeswitchRouter.js',
+                        'src/js/services/freeswitch/FreeswitchClient.js',
+                        'src/js/services/freeswitch/parsers/ListParser.js',
+                        'src/js/services/freeswitch/models/Member.js',
+                        'src/js/services/freeswitch/models/Conference.js',
+                        'src/js/services/freeswitch/models/Server.js'
+                    ]
+                }
+            }
+        },
+
+        less: {
+            options: {
+                compress: true,
+                cleancss: true,
+                sourceMap: true,
+                //sourceMapFilename: 'web/public/bundles/stylesheets/shared/layout.css.map',
+                //sourceMapBasepath: "web/public/bundles/stylesheets/shared/",
+                //sourceMapURL: 'layout.css.map'
+            },
+            all: {
+                files: {
+                    'app/css/bundle.css': 'src/css/app.less'
+                }
+            }
+        },
+
+        clean: {
+            all: {
+                src: [
+                    'app/js/bundle-header.js.map',
+                    'app/js/bundle.js.map'
+                ]
+            }
         },
 
         exec: {
@@ -35,8 +99,12 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-node-webkit-builder');
     grunt.loadNpmTasks('grunt-exec');
-    grunt.registerTask('build', ['nodewebkit']);
-    grunt.registerTask('run', ['build', 'exec:mac']);
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-newer');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.registerTask('bundle', ['newer:uglify', 'newer:less']);
+    grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
     grunt.registerTask('default', []);
