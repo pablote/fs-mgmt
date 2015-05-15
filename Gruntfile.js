@@ -58,6 +58,22 @@ module.exports = function(grunt) {
             }
         },
 
+        less: {
+            options: {
+                compress: true,
+                cleancss: true,
+                sourceMap: true,
+                //sourceMapFilename: 'web/public/bundles/stylesheets/shared/layout.css.map',
+                //sourceMapBasepath: "web/public/bundles/stylesheets/shared/",
+                //sourceMapURL: 'layout.css.map'
+            },
+            all: {
+                files: {
+                    'app/css/bundle.css': 'src/css/app.less'
+                }
+            }
+        },
+
         clean: {
             all: {
                 src: [
@@ -86,7 +102,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.registerTask('bundle', ['newer:uglify']);
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.registerTask('bundle', ['newer:uglify', 'newer:less']);
     grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
