@@ -42,15 +42,7 @@
                     <div class="form-group">
                         <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
 
-                        <div class="input-group">
-                            <input ng-model="settings.autoRefreshInterval" ng-disabled="autoRefresh" type="text" class="form-control" id="inputAutoRefreshInterval">
-
-                        <span class="input-group-btn">
-                            <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
-                                {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
-                            </button>
-                        </span>
-                        </div><!-- /input-group -->
+                        <input ng-model="settings.autoRefreshInterval" ng-disabled="autoRefresh" type="text" class="form-control" id="inputAutoRefreshInterval">
                     </div>
                 </form>
             </div>
@@ -73,15 +65,6 @@
                                     <button type="button" class="btn btn-primary active">Conferences</button>
                                     <button type="button" class="btn btn-primary">Calls</button>
                                 </div>
-                                <!--
-                                <span class="text-white" data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
-                                </span>
-                                -->
-                                <!--
-                                <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
-                                    {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
-                                </button>
-                                -->
                             </form>
                         </div><!-- /.navbar-collapse -->
                     </div><!-- /.container-fluid -->

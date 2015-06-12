@@ -6,8 +6,7 @@
         'fsmgmt.services.LocalStorageService',
         'fsmgmt.controllers.conferences',
         'fsmgmt.controllers.calls',
-        'fsmgmt.directives.ngModalClose',
-        'fsmgmt.directives.ngMomentAgo'
+        'fsmgmt.directives.ngModalClose'
     ]);
 
     var consts = {
@@ -32,9 +31,8 @@
 
             // default values
             $scope.isSettingsVisible = true;
-            $scope.settings = {};
             $scope.isAutoRefreshEnabled = false;
-            $scope.autoRefresh = null; //interval object
+            $scope.settings = {};
             $scope.messageDialog = {};
 
             localStorage.get(consts.StorageKeys.FreeswitchServerList).then(function(value) {
@@ -85,20 +83,6 @@
             // settings methods
             $scope.toggleSettings = function () {
                 $scope.isSettingsVisible = !$scope.isSettingsVisible;
-            };
-
-            $scope.toggleAutoRefresh = function () {
-                $scope.isAutoRefreshEnabled = !$scope.isAutoRefreshEnabled;
-
-                if ($scope.isAutoRefreshEnabled) {
-                    $scope.lastRefresh = null;
-                    $scope.autoRefresh = $interval(function() {
-                        $scope.refresh();
-                    }, $scope.settings.autoRefreshInterval * 1000);
-                } else {
-                    $interval.cancel($scope.autoRefresh);
-                    delete $scope.autoRefresh;
-                }
             };
 
             $scope.addServer = function () {

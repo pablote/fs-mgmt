@@ -6,7 +6,8 @@
         'fsmgmt.services.GrowlService',
         'fsmgmt.services.freeswitch.FreeswitchRouter',
         'fsmgmt.directives.ngConfirmClick',
-        'fsmgmt.directives.ngPopover'
+        'fsmgmt.directives.ngPopover',
+        'fsmgmt.directives.ngMomentAgo'
     ]);
 
     module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'growl', 'freeswitch',
@@ -16,6 +17,8 @@
 
             // default values
             $scope.servers = [];
+            $scope.autoRefresh = null; // interval object
+            $scope.lastRefresh = null; // moment obj with datetime of last refresh
 
             // methods
             $scope.refresh = function () {
@@ -46,6 +49,20 @@
                             details: error
                         });
                     })
+            };
+
+            $scope.toggleAutoRefresh = function () {
+                $scope.isAutoRefreshEnabled = !$scope.isAutoRefreshEnabled;
+
+                if ($scope.isAutoRefreshEnabled) {
+                    $scope.lastRefresh = null;
+                    $scope.autoRefresh = $interval(function() {
+                        $scope.refresh();
+                    }, $scope.settings.autoRefreshInterval * 1000);
+                } else {
+                    $interval.cancel($scope.autoRefresh);
+                    delete $scope.autoRefresh;
+                }
             };
 
             $scope.hangup = function (server, conference, member) {

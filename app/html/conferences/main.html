@@ -1,8 +1,15 @@
 <div class="container-fluid">
-    <div class="row conferences-header" style="">
+    <div class="row conferences-header">
         <div class="col-md-12">
+            <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
+            </span>
+
             <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
                 {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
+            </button>
+
+            <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
+                {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
             </button>
         </div>
     </div>
