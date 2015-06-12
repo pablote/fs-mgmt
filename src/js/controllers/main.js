@@ -5,6 +5,7 @@
         'ui.router',
         'fsmgmt.services.LocalStorageService',
         'fsmgmt.controllers.conferences',
+        'fsmgmt.controllers.calls',
         'fsmgmt.directives.ngModalClose',
         'fsmgmt.directives.ngMomentAgo'
     ]);
@@ -158,6 +159,7 @@
         $urlRouterProvider.otherwise("/conferences");
 
         $stateProvider
-            .state('conferences', { url: "/conferences", controller: 'ConferencesController', templateUrl: "conferences/main.html" });
+            .state('conferences', { url: "/conferences", controller: 'ConferencesController', templateUrl: "conferences/main.html" })
+            .state('calls', { url: "/calls", controller: 'CallsController', templateUrl: "calls/main.html" });
     }]);
 }());

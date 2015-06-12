@@ -40,6 +40,7 @@ module.exports = function(grunt) {
                         'bower_components/angular-ui-router/release/angular-ui-router.js',
                         'src/js/controllers/main.js',
                         'src/js/controllers/conferences.js',
+                        'src/js/controllers/calls.js',
                         'src/js/directives/ngConfirmClick.js',
                         'src/js/directives/ngMomentAgo.js',
                         'src/js/directives/ngModalClose.js',
