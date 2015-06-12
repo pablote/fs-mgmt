@@ -104,7 +104,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.registerTask('bundle', ['newer:uglify', 'newer:less']);
+    grunt.registerTask('bundle', ['newer:uglify', 'less']);
     grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);

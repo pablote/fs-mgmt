@@ -69,9 +69,14 @@
                                 </button>
                             </form>
                             <form class="navbar-form navbar-right">
-                                <!--<span class="text-white" ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>-->
-                        <span class="text-white" data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
-                        </span>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary active">Conferences</button>
+                                    <button type="button" class="btn btn-primary">Calls</button>
+                                </div>
+                                <!--
+                                <span class="text-white" data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
+                                </span>
+                                -->
                                 <!--
                                 <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
                                     {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
