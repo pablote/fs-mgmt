@@ -8,9 +8,12 @@
                 {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
             </button>
 
-            <button ng-click="toggleAutoRefresh()" class="btn btn-success btn-no-outline" ng-class="{ active: isAutoRefreshEnabled }">
-                {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
-            </button>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-click="toggleAutoRefresh()">
+                    Auto Refresh
+                </label>
+            </div>
         </div>
     </div>
     <div class="row">
