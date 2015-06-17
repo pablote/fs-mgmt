@@ -4,11 +4,11 @@
             <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
             </span>
 
-            <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
+            <button ng-click="refresh()" class="btn btn-primary btn-no-outline" ng-class="{ disabled: isAutoRefreshEnabled }">
                 {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
             </button>
 
-            <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
+            <button ng-click="toggleAutoRefresh()" class="btn btn-success btn-no-outline" ng-class="{ active: isAutoRefreshEnabled }">
                 {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
             </button>
         </div>
@@ -27,19 +27,19 @@
                     <div class="list-conference-title">
                         <h4 class="list-conference-name">{{ conference.name }}</h4>
 
-                        <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm">
+                        <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm btn-no-outline">
                             <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </button>
 
                         <button ng-confirm-click="hangup(server, conference, null)"
-                                class="btn btn-default btn-sm">Hangup all</button>
+                                class="btn btn-default btn-sm btn-no-outline">Hangup all</button>
 
-                        <button class="btn btn-default btn-sm" style="white-space: nowrap" ng-popover
+                        <button class="btn btn-default btn-sm btn-no-outline" style="white-space: nowrap" ng-popover
                                 data-container="body" data-toggle="popover" data-placement="right"
                                 data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
 
                         <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
-                                class="btn btn-default btn-sm">Recording status</button>
+                                class="btn btn-default btn-sm btn-no-outline">Recording status</button>
                     </div>
 
                     <table class="table table-bordered table-striped table-hover table-condensed">
@@ -59,7 +59,7 @@
                             <td>{{ member.participantRegister }}</td>
                             <td>
                                 {{ member.channelId }}
-                                <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs">
+                                <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                 </button>
                             </td>
@@ -71,7 +71,7 @@
                             <td>{{ member.entitlements }}</td>
                             <td>
                                 <button ng-confirm-click="hangup(server, conference, member)"
-                                        class="btn btn-default btn-xs">Hangup</button>
+                                        class="btn btn-default btn-xs btn-no-outline">Hangup</button>
                             </td>
                         </tr>
                         </tbody>

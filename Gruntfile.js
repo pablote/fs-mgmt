@@ -108,5 +108,5 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', ['build']);
 };

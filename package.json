@@ -5,6 +5,9 @@
     "type": "git",
     "url": "https://github.com/pablote/fs-mgmt"
   },
+  "scripts": {
+    "postinstall": "bower install"
+  },
   "dependencies": {
   },
   "devDependencies": {
