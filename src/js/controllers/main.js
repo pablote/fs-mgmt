@@ -31,7 +31,7 @@
 
             // default values
             $scope.isSettingsVisible = true;
-            $scope.isAutoRefreshEnabled = false;
+            $scope.isSettingsDisabled = false;
             $scope.settings = {};
             $scope.messageDialog = {};
 
@@ -81,6 +81,10 @@
             }
 
             // settings methods
+            $scope.enableSettings = function (enable) {
+                $scope.isSettingsDisabled = !enable;
+            };
+
             $scope.toggleSettings = function () {
                 $scope.isSettingsVisible = !$scope.isSettingsVisible;
             };

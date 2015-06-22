@@ -52,14 +52,14 @@
             };
 
             $scope.toggleAutoRefresh = function () {
-                $scope.isAutoRefreshEnabled = !$scope.isAutoRefreshEnabled;
-
-                if ($scope.isAutoRefreshEnabled) {
+                if (!$scope.autoRefresh) {
+                    $scope.enableSettings(false);
                     $scope.lastRefresh = null;
                     $scope.autoRefresh = $interval(function() {
                         $scope.refresh();
                     }, $scope.settings.autoRefreshInterval * 1000);
                 } else {
+                    $scope.enableSettings(true);
                     $interval.cancel($scope.autoRefresh);
                     delete $scope.autoRefresh;
                 }
