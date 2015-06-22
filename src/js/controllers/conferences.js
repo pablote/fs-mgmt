@@ -2,7 +2,6 @@
 (function () {
     'use strict';
     var module = angular.module('fsmgmt.controllers.conferences', [
-        'fsmgmt.services.LocalStorageService',
         'fsmgmt.services.GrowlService',
         'fsmgmt.services.freeswitch.FreeswitchRouter',
         'fsmgmt.directives.ngConfirmClick',
@@ -10,8 +9,8 @@
         'fsmgmt.directives.ngMomentAgo'
     ]);
 
-    module.controller('ConferencesController', ['$scope', '$interval', 'localStorage', 'growl', 'freeswitch',
-        function ($scope, $interval, localStorage, growl, freeswitch) {
+    module.controller('ConferencesController', ['$scope', '$interval', 'growl', 'freeswitch',
+        function ($scope, $interval, growl, freeswitch) {
             var gui = require('nw.gui');
             var u = require('underscore');
 

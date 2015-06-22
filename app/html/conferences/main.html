@@ -4,8 +4,8 @@
             <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
             </span>
 
-            <button ng-click="refresh()" class="btn btn-primary btn-no-outline" ng-class="{ disabled: isAutoRefreshEnabled }">
-                {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
+            <button ng-click="refresh()" class="btn btn-primary btn-no-outline" ng-class="{ disabled: autoRefresh }">
+                {{ autoRefresh ? "Auto Refreshing.." : "Refresh" }}
             </button>
 
             <div class="checkbox">

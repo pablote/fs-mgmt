@@ -1,0 +1,19 @@
+<div class="container-fluid">
+    <div class="row conferences-header">
+        <div class="col-md-12">
+            <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
+            </span>
+
+            <button ng-click="refresh()" class="btn btn-primary btn-no-outline" ng-class="{ disabled: autoRefresh }">
+                {{ autoRefresh ? "Auto Refreshing.." : "Refresh" }}
+            </button>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-click="toggleAutoRefresh()">
+                    Auto Refresh
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
