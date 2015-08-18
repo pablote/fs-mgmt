@@ -35,18 +35,14 @@
                 });
 
                 freeswitch
-                    .list(servers)
+                    .listConferences(servers)
                     .then(function (fsListResponse) {
                         $scope.lastRefresh = moment();
                         $scope.servers = fsListResponse;
                     })
                     .catch(function (error) {
-                        var msg = 'A problem occurred accesing the Freeswitch servers.';
-                        $scope.showModal({
-                            title: 'Error',
-                            text: msg,
-                            details: error
-                        });
+                        var msg = 'A problem occurred accessing the Freeswitch servers.';
+                        $scope.showModal({ title: 'Error', text: msg, details: error });
                     })
             };
 

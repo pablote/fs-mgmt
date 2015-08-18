@@ -50,8 +50,10 @@ module.exports = function(grunt) {
                         'src/js/services/GrowlService.js',
                         'src/js/services/freeswitch/FreeswitchRouter.js',
                         'src/js/services/freeswitch/FreeswitchClient.js',
-                        'src/js/services/freeswitch/parsers/ListParser.js',
+                        'src/js/services/freeswitch/parsers/ConferenceListParser.js',
+                        'src/js/services/freeswitch/parsers/CallListParser.js',
                         'src/js/services/freeswitch/models/Member.js',
+                        'src/js/services/freeswitch/models/Call.js',
                         'src/js/services/freeswitch/models/Conference.js',
                         'src/js/services/freeswitch/models/Server.js'
                     ]

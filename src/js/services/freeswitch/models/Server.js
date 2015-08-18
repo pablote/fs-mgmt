@@ -10,6 +10,7 @@
             this.username = options.username;
             this.password = options.password;
             this.conferences = options.conferences;
+            this.calls = options.calls;
         };
 
         return FreeswitchServer;
