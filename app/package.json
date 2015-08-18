@@ -6,7 +6,7 @@
   "window": {
     "title": "Freeswitch Desktop",
     "icon": "images/icon.png",
-    "toolbar": true,
+    "toolbar": false,
     "width": 1280,
     "height": 768
   },
