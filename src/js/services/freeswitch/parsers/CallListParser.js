@@ -10,6 +10,8 @@
         function ($q, $http, FreeswitchConference, Call) {
             //var S = require('string');
             //var u = require('underscore');
+            var cheerio = require('cheerio');
+            var tabletojson = require('tabletojson');
 
             var CallListParser = function () {
             };
@@ -17,29 +19,25 @@
             CallListParser.prototype.parse = function(fsTextResponse) {
                 return $q(function(resolve, reject) {
                     var response = [];
-                    response.push(new Call(fsTextResponse));
-/*
-                    if (S(fsTextResponse).contains('No active calls.')) {
-                        resolve(response);
-                    } else {
-                        u.each(S(fsTextResponse).lines(), function (line) {
-                            line = S(line).replaceAll('<pre>', '').trim();
 
-                            if (!line.isEmpty()) {
-                                // starts new conference
-                                if (line.startsWith('Conference ')) {
-                                    response.push(new FreeswitchConference(line));
-                                }
-                                // its a member in the current conference
-                                else {
-                                    response[response.length - 1].members.push(new FreeswitchMember(line));
-                                }
+                    // parse html table in response into json object
+                    var $ = cheerio.load(fsTextResponse);
+                    var tableHtml = '<table>' + $('table').html() + '</table>';
+                    var tableAsJson = tabletojson.convert(tableHtml);
+
+                    // iterate results
+                    for (var i = 0; i < tableAsJson[0].length ; i++) {
+                        if (tableAsJson[0].hasOwnProperty(i)) {
+                            var row = tableAsJson[0][i];
+
+                            // ignore row 0 which is the header row
+                            if (i > 0) {
+                                // build call based on row
+                                response.push(new Call(row));
                             }
-                        });
-
-                        resolve(response);
+                        }
                     }
-                    */
+
                     resolve(response);
 
                 });

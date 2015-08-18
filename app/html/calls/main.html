@@ -25,9 +25,32 @@
 
                 <span ng-show="!server.error && server.conferences.length == 0">No calls on this server</span>
 
-                <div ng-repeat="call in server.calls">
-                    <pre>{{ call.data }}</pre>
-                </div>
+                <table class="table table-bordered table-striped table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>UUID</th>
+                            <th>Direction</th>
+                            <th>Created</th>
+                            <th>Name</th>
+                            <th>State</th>
+                            <th>Caller Id</th>
+                            <th>IP Address</th>
+                            <th>Destination</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="call in server.calls">
+                            <td>{{ call.uuid }}</td>
+                            <td>{{ call.direction }}</td>
+                            <td>{{ call.created }}</td>
+                            <td>{{ call.name }}</td>
+                            <td>{{ call.state }}</td>
+                            <td>{{ call.callerIdName }} ({{ call.callerIdNumber }})</td>
+                            <td>{{ call.ipAddress }}</td>
+                            <td>{{ call.destination }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
