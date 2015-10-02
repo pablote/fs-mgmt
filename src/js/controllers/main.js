@@ -139,7 +139,7 @@
 
             $scope.$watch("settings.autoRefreshInterval", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.AutoRefreshInterval, newValue);
-            })
+            });
         }
     ]);
 

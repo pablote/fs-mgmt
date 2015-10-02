@@ -19,6 +19,14 @@
             $scope.autoRefresh = null; // interval object
             $scope.lastRefresh = null; // moment obj with datetime of last refresh
 
+            // events
+            $scope.$on("$destroy", function() {
+                if ($scope.autoRefresh) {
+                    $scope.toggleAutoRefresh();
+                }
+            });
+
+            // methods
             $scope.refresh = function () {
                 var servers = [];
 
