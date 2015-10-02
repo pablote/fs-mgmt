@@ -23,9 +23,9 @@
 
                 <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
 
-                <span ng-show="!server.error && server.conferences.length == 0">No calls on this server</span>
+                <span ng-show="!server.error && server.calls.length == 0">No calls on this server</span>
 
-                <table class="table table-bordered table-striped table-hover table-condensed">
+                <table ng-show="server.calls.length > 0" class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
                             <th>UUID</th>

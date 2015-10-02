@@ -8,7 +8,7 @@
 
     module.factory('CallListParser', ['$q', '$http', 'FreeswitchConference', 'Call',
         function ($q, $http, FreeswitchConference, Call) {
-            //var S = require('string');
+            var S = require('string');
             //var u = require('underscore');
             var cheerio = require('cheerio');
             var tabletojson = require('tabletojson');
@@ -22,24 +22,28 @@
 
                     // parse html table in response into json object
                     var $ = cheerio.load(fsTextResponse);
-                    var tableHtml = '<table>' + $('table').html() + '</table>';
-                    var tableAsJson = tabletojson.convert(tableHtml);
+                    var tableHtml = $('table').html();
 
-                    // iterate results
-                    for (var i = 0; i < tableAsJson[0].length ; i++) {
-                        if (tableAsJson[0].hasOwnProperty(i)) {
-                            var row = tableAsJson[0][i];
+                    if (S(tableHtml).isEmpty()) {
+                        resolve(response);
+                    } else {
+                        var tableAsJson = tabletojson.convert('<table>' + tableHtml + '</table>');
 
-                            // ignore row 0 which is the header row
-                            if (i > 0) {
-                                // build call based on row
-                                response.push(new Call(row));
+                        // iterate results
+                        for (var i = 0; i < tableAsJson[0].length; i++) {
+                            if (tableAsJson[0].hasOwnProperty(i)) {
+                                var row = tableAsJson[0][i];
+
+                                // ignore row 0 which is the header row
+                                if (i > 0) {
+                                    // build call based on row
+                                    response.push(new Call(row));
+                                }
                             }
                         }
+
+                        resolve(response);
                     }
-
-                    resolve(response);
-
                 });
             };
 
