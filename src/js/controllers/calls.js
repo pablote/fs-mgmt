@@ -60,6 +60,13 @@
                 $('#modalCallDetails').modal();
             };
 
+            $scope.copyToClipboard = function (text) {
+                var clipboard = gui.Clipboard.get();
+                clipboard.set(text, 'text');
+
+                growl.info(text, 'Copied to Clipboard');
+            };
+
             $scope.toggleAutoRefresh = function () {
                 if (!$scope.autoRefresh) {
                     $scope.enableSettings(false);
