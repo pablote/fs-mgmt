@@ -16,6 +16,7 @@
 
             // default values
             $scope.servers = [];
+            $scope.selectedCall = null;
             $scope.autoRefresh = null; // interval object
             $scope.lastRefresh = null; // moment obj with datetime of last refresh
 
@@ -51,6 +52,12 @@
                         var msg = 'A problem occurred accessing the Freeswitch servers.';
                         $scope.showModal({ title: 'Error', text: msg, details: error });
                     })
+            };
+
+            $scope.selectCall = function (call) {
+                $scope.selectedCall = call;
+
+                $('#modalCallDetails').modal();
             };
 
             $scope.toggleAutoRefresh = function () {
