@@ -13,13 +13,42 @@
         var FreeswitchRouter = function () {
         };
 
-        FreeswitchRouter.prototype.list = function(servers) {
+        FreeswitchRouter.prototype.listConferences = function(servers) {
             return $q(function (resolve, reject) {
                 var responses = [];
 
                 u.each(servers, function (server) {
                     var client = new FreeswitchClient(server);
-                    responses.push(client.list());
+                    responses.push(client.listConferences());
+                });
+
+                $q.allSettled(responses)
+                    .then(function(allResponses) {
+                        resolve(allResponses);
+                    })
+                    .catch(function(allResponses) {
+                        resolve(u.map(allResponses, function (response) {
+                            if (response instanceof FreeswitchServer) {
+                                return response;
+                            } else {
+                                return {
+                                    name: response.server.name,
+                                    host: response.server.host,
+                                    error: (response.status === 0) ? "Connection refused" : '(' + response.status + ') ' + response.statusText
+                                }
+                            }
+                        }));
+                    });
+            });
+        };
+
+        FreeswitchRouter.prototype.listCalls = function(servers) {
+            return $q(function (resolve, reject) {
+                var responses = [];
+
+                u.each(servers, function (server) {
+                    var client = new FreeswitchClient(server);
+                    responses.push(client.listCalls());
                 });
 
                 $q.allSettled(responses)
@@ -50,6 +79,11 @@
         FreeswitchRouter.prototype.recordingCheck = function(server, conference) {
             var client = new FreeswitchClient(server);
             return client.recordingCheck(conference.name);
+        };
+
+        FreeswitchRouter.prototype.kill = function(server, call) {
+            var client = new FreeswitchClient(server);
+            return client.kill(call);
         };
 
         return new FreeswitchRouter();

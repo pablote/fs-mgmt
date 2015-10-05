@@ -1,144 +1,84 @@
-<div id="wrapper" class="height-all" ng-class="{ toggled: !isSettingsVisible }">
-    <!--
-        Left column
-    -->
-    <div id="sidebar-wrapper" class="height-all vertical-crop settings-panel">
-        <form class="settings-panel-content">
-            <h4>SETTINGS</h4>
-            <div class="form-group">
-                <label>Servers</label>
-                <ul class="server-list">
-                    <li class="server-list-item" ng-repeat="server in settings.serverList track by server.name">
-                        <input type="checkbox" ng-model="server.enabled" ng-disabled="autoRefresh" />
-                        {{ server.name }}
-                        <div class="server-list-item-remove" ng-click="removeServer(server)" ng-show="!autoRefresh">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </div>
-                    </li>
-                </ul>
-                <button ng-click="addServer()" ng-disabled="autoRefresh" class="btn btn-sm btn-default">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    Add
-                </button>
-            </div>
-            <div class="form-group">
-                <label for="inputUsername">Username</label>
-                <input ng-model="settings.username" ng-disabled="autoRefresh"
-                       type="text" class="form-control" id="inputUsername" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <label for="inputPassword">Password</label>
-                <input ng-model="settings.password" ng-disabled="autoRefresh"
-                       type="password" class="form-control" id="inputPassword" placeholder="Password">
-            </div>
-            <div class="form-group">
-                <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
+<div class="container-fluid">
+    <div class="row section-header">
+        <div class="col-md-12">
+            <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
+            </span>
 
-                <div class="input-group">
-                    <input ng-model="settings.autoRefreshInterval" ng-disabled="autoRefresh" type="text" class="form-control" id="inputAutoRefreshInterval">
+            <button ng-click="refresh()" class="btn btn-primary btn-no-outline" ng-class="{ disabled: autoRefresh }">
+                {{ autoRefresh ? "Auto Refreshing.." : "Refresh" }}
+            </button>
 
-                    <span class="input-group-btn">
-                        <button ng-click="toggleAutoRefresh()" class="btn btn-success" ng-class="{ active: isAutoRefreshEnabled }">
-                            {{ isAutoRefreshEnabled ? "Disable" : "Enable" }}
-                        </button>
-                    </span>
-                </div><!-- /input-group -->
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="" ng-click="toggleAutoRefresh()">
+                    Auto Refresh
+                </label>
             </div>
-        </form>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div ng-repeat="server in servers">
+                <h3>{{ server.name }}</h3>
 
-    <!--
-        Main body
-    -->
-    <div id="page-content-wrapper" class="height-all no-padding">
-        <nav class="navbar navbar-inverse navbar-noborder">
-            <div class="container-fluid no-padding-left">
+                <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse no-padding" id="bs-example-navbar-collapse-1">
-                    <form class="navbar-form navbar-left">
-                        <button ng-click="toggleSettings()" class="btn btn-default" ng-class="{ active: isSettingsVisible }">
-                            {{ isSettingsVisible ? "Hide" : "Show" }} Settings
+                <span ng-show="!server.error && server.conferences.length == 0">No conferences on this server</span>
+
+                <div ng-repeat="conference in server.conferences">
+
+                    <div class="list-conference-title">
+                        <h4 class="list-conference-name">{{ conference.name }}</h4>
+
+                        <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm btn-no-outline">
+                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                         </button>
-                    </form>
-                    <form class="navbar-form navbar-right">
-                        <!--<span class="text-white" ng-show="lastRefreshString">Last updated {{ lastRefreshString }}.</span>-->
-                        <span class="text-white" data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
-                        </span>
-                        <button ng-click="refresh()" class="btn btn-primary" ng-class="{ disabled: isAutoRefreshEnabled }">
-                            {{ isAutoRefreshEnabled ? "Auto Refreshing.." : "Refresh" }}
-                        </button>
-                    </form>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
 
-        <div class="container-fluid vertical-scroll height-all-expect-nav">
-            <div class="row">
-                <div class="col-md-12">
-                    <div ng-repeat="server in servers">
-                        <h3>{{ server.name }}</h3>
+                        <button ng-confirm-click="hangup(server, conference, null)"
+                                class="btn btn-default btn-sm btn-no-outline">Hangup all</button>
 
-                        <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
+                        <button class="btn btn-default btn-sm btn-no-outline" style="white-space: nowrap" ng-popover
+                                data-container="body" data-toggle="popover" data-placement="right"
+                                data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
 
-                        <span ng-show="!server.error && server.conferences.length == 0">No conferences on this server</span>
+                        <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
+                                class="btn btn-default btn-sm btn-no-outline">Recording status</button>
+                    </div>
 
-                        <div ng-repeat="conference in server.conferences">
-
-                            <div class="list-conference-title">
-                                <h4 class="list-conference-name">{{ conference.name }}</h4>
-
-                                <button ng-click="copyToClipboard(conference.name)" class="btn btn-default btn-sm">
+                    <table class="table table-bordered table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Register</th>
+                                <th>Channel Id</th>
+                                <th>Caller Id</th>
+                                <th>Entitlements</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
+                            <td>{{ member.id }}</td>
+                            <td>{{ member.participantRegister }}</td>
+                            <td>
+                                {{ member.channelId }}
+                                <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                 </button>
-
-                                <button ng-confirm-click="hangup(server, conference, null)"
-                                        class="btn btn-default btn-sm">Hangup all</button>
-
-                                <button class="btn btn-default btn-sm" style="white-space: nowrap" ng-popover
-                                        data-container="body" data-toggle="popover" data-placement="right"
-                                        data-content="{{ conference.flags }}" data-trigger="focus">Show flags</button>
-
-                                <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
-                                        class="btn btn-default btn-sm">Recording status</button>
-                            </div>
-
-                            <table class="table table-bordered table-striped table-hover table-condensed">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Register</th>
-                                    <th>Channel Id</th>
-                                    <th>Caller Id</th>
-                                    <th>Entitlements</th>
-                                    <th>Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
-                                    <td>{{ member.id }}</td>
-                                    <td>{{ member.participantRegister }}</td>
-                                    <td>
-                                        {{ member.channelId }}
-                                        <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs">
-                                            <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
-                                        </button>
-                                    </td>
-                                    <td>{{ member.callerIdName }}
+                            </td>
+                            <td>{{ member.callerIdName }}
                                         <span ng-show="member.callerIdNumber" style="color: #888888">
                                             ({{ member.callerIdNumber }})
                                         </span>
-                                    </td>
-                                    <td>{{ member.entitlements }}</td>
-                                    <td>
-                                        <button ng-confirm-click="hangup(server, conference, member)"
-                                                class="btn btn-default btn-xs">Hangup</button>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                            </td>
+                            <td>{{ member.entitlements }}</td>
+                            <td>
+                                <button ng-confirm-click="hangup(server, conference, member)"
+                                        class="btn btn-default btn-xs btn-no-outline">Hangup</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

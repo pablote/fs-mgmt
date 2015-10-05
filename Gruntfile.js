@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         nodewebkit: {
             options: {
                 appName: 'Freeswitch Desktop',
-                version: '0.12.0',
+                version: '0.12.3',
                 buildDir: './build',
                 platforms: [ 'osx64', 'linux64' ],
                 winIco: "app/images/icon.ico",
@@ -40,6 +40,7 @@ module.exports = function(grunt) {
                         'bower_components/angular-ui-router/release/angular-ui-router.js',
                         'src/js/controllers/main.js',
                         'src/js/controllers/conferences.js',
+                        'src/js/controllers/calls.js',
                         'src/js/directives/ngConfirmClick.js',
                         'src/js/directives/ngMomentAgo.js',
                         'src/js/directives/ngModalClose.js',
@@ -49,8 +50,10 @@ module.exports = function(grunt) {
                         'src/js/services/GrowlService.js',
                         'src/js/services/freeswitch/FreeswitchRouter.js',
                         'src/js/services/freeswitch/FreeswitchClient.js',
-                        'src/js/services/freeswitch/parsers/ListParser.js',
+                        'src/js/services/freeswitch/parsers/ConferenceListParser.js',
+                        'src/js/services/freeswitch/parsers/CallListParser.js',
                         'src/js/services/freeswitch/models/Member.js',
+                        'src/js/services/freeswitch/models/Call.js',
                         'src/js/services/freeswitch/models/Conference.js',
                         'src/js/services/freeswitch/models/Server.js'
                     ]
@@ -103,9 +106,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
-    grunt.registerTask('bundle', ['newer:uglify', 'newer:less']);
+    grunt.registerTask('bundle', ['newer:uglify', 'less']);
     grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
-    grunt.registerTask('default', []);
+    grunt.registerTask('default', ['build']);
 };
