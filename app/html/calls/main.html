@@ -59,7 +59,7 @@
                                 <button ng-click="copyToClipboard(call.uuid)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                 </button>
-                                <button class="btn btn-xs btn-default" ng-click="killCall(call)">Kill</button>
+                                <button class="btn btn-xs btn-default" ng-confirm-click="killCall(server, call)">Kill</button>
                             </td>
                         </tr>
                     </tbody>

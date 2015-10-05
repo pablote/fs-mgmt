@@ -101,6 +101,10 @@
                 return doGet(this, 'http://' + this.host + ':8080/webapi/conference?' + conferenceName + ' recording check');
             };
 
+            FreeswitchClient.prototype.kill = function(call) {
+                return doGet(this, 'http://' + this.host + ':8080/webapi/uuid_kill?' + call.uuid);
+            };
+
             return FreeswitchClient;
         }
     ]);

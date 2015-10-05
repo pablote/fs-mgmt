@@ -81,6 +81,11 @@
             return client.recordingCheck(conference.name);
         };
 
+        FreeswitchRouter.prototype.kill = function(server, call) {
+            var client = new FreeswitchClient(server);
+            return client.kill(call);
+        };
+
         return new FreeswitchRouter();
     }]);
 }());

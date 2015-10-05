@@ -62,8 +62,15 @@
                 $('#modalCallDetails').modal();
             };
 
-            $scope.killCall = function (call) {
-                //TODO
+            $scope.killCall = function (server, call) {
+                freeswitch.kill(server, call)
+                    .then(function (killResponse) {
+                        growl.info(killResponse, 'Done');
+                        $scope.refresh();
+                    })
+                    .catch(function (killError) {
+                        growl.error(killError.toString(), "Failed");
+                    });
             };
 
             $scope.copyToClipboard = function (text) {
