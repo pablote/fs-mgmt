@@ -47,6 +47,8 @@
                     .then(function (fsListCallsResponse) {
                         $scope.lastRefresh = moment();
                         $scope.servers = fsListCallsResponse;
+
+                        setTimeout(function () { $('[data-toggle="tooltip"]').tooltip(); }, 1000);
                     })
                     .catch(function (error) {
                         var msg = 'A problem occurred accessing the Freeswitch servers.';
@@ -58,6 +60,10 @@
                 $scope.selectedCall = call;
 
                 $('#modalCallDetails').modal();
+            };
+
+            $scope.killCall = function (call) {
+                //TODO
             };
 
             $scope.copyToClipboard = function (text) {

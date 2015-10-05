@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run" type="NodeWebKit" factoryName="NW.js" exePath="$PROJECT_DIR$/cache/0.12.0/osx64/nwjs.app/Contents/MacOS/nwjs" inputPath="$PROJECT_DIR$/app">
+  <configuration default="false" name="Run" type="NodeWebKit" factoryName="NW.js" exePath="$PROJECT_DIR$/cache/0.12.3/osx64/nwjs.app/Contents/MacOS/nwjs" inputPath="$PROJECT_DIR$/app">
     <method>
       <option name="RunConfigurationTask" enabled="true" run_configuration_name="Grunt Bundle" run_configuration_type="js.build_tools.grunt" />
     </method>
