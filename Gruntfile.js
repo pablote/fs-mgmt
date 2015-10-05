@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         nodewebkit: {
             options: {
                 appName: 'Freeswitch Desktop',
-                version: '0.12.0',
+                version: '0.12.3',
                 buildDir: './build',
                 platforms: [ 'osx64', 'linux64' ],
                 winIco: "app/images/icon.ico",
