@@ -1,11 +1,14 @@
 freeswitch-desktop
 ==================
 
-Simple Freeswitch desktop management application
+Simple Freeswitch desktop management application. We use it at [Cinchcast](http://www.cinchcast.com/?utm_source=github&utm_medium=blog&utm_campaign=fsdesktopapp).
 
 #binaries
 
 Binaries for every platform are available on the [releases page](https://github.com/pablote/fs-mgmt/releases)
+
+On OSX, if using [Homebrew](http://brew.sh/) and [Caskroom](http://caskroom.io/)
+```brew cask install freeswitch-desktop```
 
 #build
 
