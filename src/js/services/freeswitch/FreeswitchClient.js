@@ -15,7 +15,7 @@
                 this.password = server.password;
                 this.name = server.name;
                 this.basicAuthHeader = 'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64');
-                this.requestTimeout = 1500;
+                this.requestTimeout = 3000;
             };
 
             function doGet(self, url) {
