@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        nodewebkit: {
+        nwjs: {
             options: {
                 appName: 'Freeswitch Desktop',
                 version: '0.12.3',
@@ -100,14 +100,14 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
+    grunt.loadNpmTasks('grunt-nw-builder');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.registerTask('bundle', ['newer:uglify', 'less']);
-    grunt.registerTask('build', ['bundle', 'clean', 'nodewebkit']);
+    grunt.registerTask('build', ['bundle', 'clean', 'nwjs']);
     grunt.registerTask('run:linux', ['build', 'exec:linux']);
     grunt.registerTask('run:mac', ['build', 'exec:mac']);
     grunt.registerTask('default', ['build']);
