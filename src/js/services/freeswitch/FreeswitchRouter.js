@@ -37,10 +37,14 @@
                             if (response instanceof FreeswitchServer) {
                                 return response;
                             } else {
+                                console.log(JSON.stringify(response));
+
                                 return {
                                     name: response.server.name,
                                     host: response.server.host,
-                                    error: (response.status === 0) ? "Connection refused" : '(' + response.status + ') ' + response.statusText
+                                    error: (response.status === 0 || response.status === -1)
+                                        ? "Connection refused"
+                                        : '(' + response.status + ') ' + response.statusText
                                 }
                             }
                         }));
