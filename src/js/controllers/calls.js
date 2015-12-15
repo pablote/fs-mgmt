@@ -42,6 +42,7 @@
                     }
                 });
 
+                freeswitch.setTimeout($scope.settings.httpTimeoutMilliseconds);
                 freeswitch
                     .listCalls(servers)
                     .then(function (fsListCallsResponse) {

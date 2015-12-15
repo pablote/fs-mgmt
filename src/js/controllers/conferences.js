@@ -41,6 +41,7 @@
                     }
                 });
 
+                freeswitch.setTimeout($scope.settings.httpTimeoutMilliseconds);
                 freeswitch
                     .listConferences(servers)
                     .then(function (fsListResponse) {

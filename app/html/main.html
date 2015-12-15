@@ -40,9 +40,15 @@
                                type="password" class="form-control" id="inputPassword" placeholder="Password">
                     </div>
                     <div class="form-group">
-                        <label for="inputAutoRefreshInterval">Auto refresh (in seconds)</label>
+                        <label for="inputAutoRefreshInterval">Auto refresh (seconds)</label>
 
                         <input ng-model="settings.autoRefreshInterval" ng-disabled="isSettingsDisabled" type="text" class="form-control" id="inputAutoRefreshInterval">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputHttpTimeoutMilliseconds">HTTP timeout (milliseconds)</label>
+
+                        <input ng-model="settings.httpTimeoutMilliseconds" ng-disabled="isSettingsDisabled" type="text" class="form-control" id="inputHttpTimeoutMilliseconds">
                     </div>
                 </form>
             </div>

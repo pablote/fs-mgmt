@@ -14,7 +14,8 @@
             FreeswitchServerList: 'settings-server-list',
             FreeswitchUsername: 'settings-username-v2',
             FreeswitchPassword: 'settings-password-v2',
-            AutoRefreshInterval: 'settings-autorefresh-interval-v2'
+            AutoRefreshInterval: 'settings-autorefresh-interval-v2',
+            HttpTimeoutMilliseconds: 'settings-http-timeout-millis'
         }
     };
 
@@ -37,7 +38,7 @@
 
             localStorage.get(consts.StorageKeys.FreeswitchServerList).then(function(value) {
                 if (value) {
-                    // compatibility, if no enabled property in object, then default it to true
+                    // compatibility, if no `enabled` property in object, then default it to true
                     u.each(value, function (server) {
                         if (!server.hasOwnProperty('enabled')) {
                             server.enabled = true;
@@ -64,6 +65,13 @@
                     $scope.settings.autoRefreshInterval = value;
                 else
                     $scope.settings.autoRefreshInterval = 5;
+            });
+
+            localStorage.get(consts.StorageKeys.HttpTimeoutMilliseconds).then(function(value) {
+                if (value)
+                    $scope.settings.httpTimeoutMilliseconds = value;
+                else
+                    $scope.settings.httpTimeoutMilliseconds = 2000;
             });
 
             // mac menus
@@ -139,6 +147,10 @@
 
             $scope.$watch("settings.autoRefreshInterval", function (newValue, oldValue) {
                 localStorage.set(consts.StorageKeys.AutoRefreshInterval, newValue);
+            });
+
+            $scope.$watch("settings.httpTimeoutMilliseconds", function (newValue, oldValue) {
+                localStorage.set(consts.StorageKeys.HttpTimeoutMilliseconds, newValue);
             });
         }
     ]);
