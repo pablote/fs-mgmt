@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid height-all">
     <div class="row section-header">
         <div class="col-md-12">
             <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row height-all-expect-sub-nav vertical-scroll">
         <div class="col-md-12">
             <div ng-repeat="server in servers">
                 <h3>{{ server.name }}</h3>
