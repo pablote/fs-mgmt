@@ -58,20 +58,20 @@
                         </thead>
                         <tbody>
                         <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
-                            <td>{{ member.id }}</td>
-                            <td>{{ member.participantRegister }}</td>
+                            <td>{{ ::member.id }}</td>
+                            <td>{{ ::member.participantRegister }}</td>
                             <td>
-                                {{ member.channelId }}
+                                {{ ::member.channelId }}
                                 <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                 </button>
                             </td>
-                            <td>{{ member.callerIdName }}
-                                        <span ng-show="member.callerIdNumber" style="color: #888888">
-                                            ({{ member.callerIdNumber }})
-                                        </span>
+                            <td>{{ ::member.callerIdName }}
+                                <span ng-show="member.callerIdNumber" style="color: #888888">
+                                    ({{ ::member.callerIdNumber }})
+                                </span>
                             </td>
-                            <td>{{ member.entitlements }}</td>
+                            <td>{{ ::member.entitlements }}</td>
                             <td>
                                 <button ng-confirm-click="hangup(server, conference, member)"
                                         class="btn btn-default btn-xs btn-no-outline">Hangup</button>

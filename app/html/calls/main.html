@@ -31,7 +31,6 @@
                             <th>UUID</th>
                             <th>Direction</th>
                             <th>Created</th>
-                            <!--<th>Name</th>-->
                             <th>State</th>
                             <th>Caller Id (Name)</th>
                             <th>IP Address</th>
@@ -42,19 +41,18 @@
                     <tbody>
                         <tr ng-repeat="call in server.calls">
                             <td>
-                                <a ng-click="selectCall(call)" href="javascript:void(0)">{{ call.uuid }}</a>
+                                <a ng-click="selectCall(call)" href="javascript:void(0)">{{ ::call.uuid }}</a>
                             </td>
-                            <td>{{ call.direction }}</td>
-                            <td>{{ call.created }}</td>
-                            <!--<td>{{ call.name }}</td>-->
-                            <td>{{ call.state }}</td>
+                            <td>{{ ::call.direction }}</td>
+                            <td>{{ ::call.created }}</td>
+                            <td>{{ ::call.state }}</td>
                             <td>
-                                <div class="text-max-width-250" data-toggle="tooltip" data-placement="top" title="{{ call.callerIdName }} ({{ call.callerIdNumber }})">
-                                    {{ call.callerIdName }} ({{ call.callerIdNumber }})
+                                <div class="text-max-width-250" data-toggle="tooltip" data-placement="top" title="{{ ::call.callerIdName }} ({{ ::call.callerIdNumber }})">
+                                    {{ ::call.callerIdName }} ({{ ::call.callerIdNumber }})
                                 </div>
                             </td>
-                            <td>{{ call.ipAddress }}</td>
-                            <td>{{ call.destination }}</td>
+                            <td>{{ ::call.ipAddress }}</td>
+                            <td>{{ ::call.destination }}</td>
                             <td>
                                 <button ng-click="copyToClipboard(call.uuid)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
