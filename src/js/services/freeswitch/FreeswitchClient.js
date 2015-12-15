@@ -9,13 +9,13 @@
 
     module.factory('FreeswitchClient', ['$q', '$http', 'ConferenceListParser', 'CallListParser', 'FreeswitchServer',
         function ($q, $http, ConferenceListParser, CallListParser, FreeswitchServer) {
-            var FreeswitchClient = function (server) {
+            var FreeswitchClient = function (server, requestTimeout) {
                 this.host = server.host;
                 this.username = server.username;
                 this.password = server.password;
                 this.name = server.name;
                 this.basicAuthHeader = 'Basic ' + new Buffer(this.username + ':' + this.password).toString('base64');
-                this.requestTimeout = 1500;
+                this.requestTimeout = requestTimeout || 3000;
             };
 
             function doGet(self, url) {

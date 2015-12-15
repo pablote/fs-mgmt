@@ -1,6 +1,6 @@
 {
   "name": "fs-mgmt-build",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/pablote/fs-mgmt"
@@ -9,14 +9,14 @@
     "postinstall": "bower install"
   },
   "dependencies": {
+    "grunt-nw-builder": "^2.0.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-clean": "^0.7.0",
+    "grunt-contrib-uglify": "^0.11.0",
     "grunt-exec": "^0.4.6",
-    "grunt-newer": "^1.1.0",
-    "grunt-node-webkit-builder": "^1.0.2",
-    "grunt-contrib-less": "^1.0.1"
+    "grunt-newer": "^1.1.1",
+    "grunt-contrib-less": "^1.1.0"
   }
 }

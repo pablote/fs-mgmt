@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid height-all">
     <div class="row section-header">
         <div class="col-md-12">
             <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row height-all-expect-sub-nav vertical-scroll">
         <div class="col-md-12">
             <div ng-repeat="server in servers">
                 <h3>{{ server.name }}</h3>
@@ -58,20 +58,20 @@
                         </thead>
                         <tbody>
                         <tr ng-class="{ success: !member.isInternalCall }" ng-repeat="member in conference.members">
-                            <td>{{ member.id }}</td>
-                            <td>{{ member.participantRegister }}</td>
+                            <td>{{ ::member.id }}</td>
+                            <td>{{ ::member.participantRegister }}</td>
                             <td>
-                                {{ member.channelId }}
+                                {{ ::member.channelId }}
                                 <button ng-click="copyToClipboard(member.channelId)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
                                 </button>
                             </td>
-                            <td>{{ member.callerIdName }}
-                                        <span ng-show="member.callerIdNumber" style="color: #888888">
-                                            ({{ member.callerIdNumber }})
-                                        </span>
+                            <td>{{ ::member.callerIdName }}
+                                <span ng-show="member.callerIdNumber" style="color: #888888">
+                                    ({{ ::member.callerIdNumber }})
+                                </span>
                             </td>
-                            <td>{{ member.entitlements }}</td>
+                            <td>{{ ::member.entitlements }}</td>
                             <td>
                                 <button ng-confirm-click="hangup(server, conference, member)"
                                         class="btn btn-default btn-xs btn-no-outline">Hangup</button>

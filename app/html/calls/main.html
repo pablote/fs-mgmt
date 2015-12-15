@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid height-all">
     <div class="row section-header">
         <div class="col-md-12">
             <span data-moment-format="Last updated %s." ng-moment-ago="lastRefresh">
@@ -16,7 +16,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row height-all-expect-sub-nav vertical-scroll">
         <div class="col-md-12">
             <div ng-repeat="server in servers">
                 <h3>{{ server.name }}</h3>
@@ -31,7 +31,6 @@
                             <th>UUID</th>
                             <th>Direction</th>
                             <th>Created</th>
-                            <!--<th>Name</th>-->
                             <th>State</th>
                             <th>Caller Id (Name)</th>
                             <th>IP Address</th>
@@ -42,19 +41,18 @@
                     <tbody>
                         <tr ng-repeat="call in server.calls">
                             <td>
-                                <a ng-click="selectCall(call)" href="javascript:void(0)">{{ call.uuid }}</a>
+                                <a ng-click="selectCall(call)" href="javascript:void(0)">{{ ::call.uuid }}</a>
                             </td>
-                            <td>{{ call.direction }}</td>
-                            <td>{{ call.created }}</td>
-                            <!--<td>{{ call.name }}</td>-->
-                            <td>{{ call.state }}</td>
+                            <td>{{ ::call.direction }}</td>
+                            <td>{{ ::call.created }}</td>
+                            <td>{{ ::call.state }}</td>
                             <td>
-                                <div class="text-max-width-250" data-toggle="tooltip" data-placement="top" title="{{ call.callerIdName }} ({{ call.callerIdNumber }})">
-                                    {{ call.callerIdName }} ({{ call.callerIdNumber }})
+                                <div class="text-max-width-250" data-toggle="tooltip" data-placement="top" title="{{ ::call.callerIdName }} ({{ ::call.callerIdNumber }})">
+                                    {{ ::call.callerIdName }} ({{ ::call.callerIdNumber }})
                                 </div>
                             </td>
-                            <td>{{ call.ipAddress }}</td>
-                            <td>{{ call.destination }}</td>
+                            <td>{{ ::call.ipAddress }}</td>
+                            <td>{{ ::call.destination }}</td>
                             <td>
                                 <button ng-click="copyToClipboard(call.uuid)" class="btn btn-default btn-xs btn-no-outline">
                                     <span class="glyphicon glyphicon-copy" aria-hidden="true"></span>
@@ -82,7 +80,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

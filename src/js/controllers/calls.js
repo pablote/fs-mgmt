@@ -42,6 +42,7 @@
                     }
                 });
 
+                freeswitch.setTimeout($scope.settings.httpTimeoutMilliseconds);
                 freeswitch
                     .listCalls(servers)
                     .then(function (fsListCallsResponse) {
@@ -84,6 +85,9 @@
                 if (!$scope.autoRefresh) {
                     $scope.enableSettings(false);
                     $scope.lastRefresh = null;
+
+                    $scope.refresh();
+
                     $scope.autoRefresh = $interval(function() {
                         $scope.refresh();
                     }, $scope.settings.autoRefreshInterval * 1000);
