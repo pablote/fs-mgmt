@@ -18,14 +18,21 @@
     </div>
     <div class="row height-all-expect-sub-nav vertical-scroll">
         <div class="col-md-12">
-            <div ng-repeat="server in servers">
-                <h3>{{ server.name }}</h3>
+            <div class="list-server-item" ng-repeat="server in servers">
+                <div class="list-server-header">
+                    <h3>{{ server.name }}</h3>
+                    <span class="list-server-header-details" ng-show="!server.error && server.conferences.length > 0">
+                        {{ server.conferences.length }} conference{{ server.conferences.length > 1 ? 's' : '' }}
+                    </span>
+                </div>
 
                 <div class="alert alert-warning" ng-show="server.error">{{ server.error }}</div>
 
-                <span ng-show="!server.error && server.conferences.length == 0">No conferences on this server</span>
+                <div ng-show="!server.error && server.conferences.length == 0">
+                    No conferences on this server
+                </div>
 
-                <div ng-repeat="conference in server.conferences">
+                <div class="list-conference-item" ng-repeat="conference in server.conferences">
 
                     <div class="list-conference-title">
                         <h4 class="list-conference-name">{{ conference.name }}</h4>
@@ -43,6 +50,10 @@
 
                         <button ng-show="conference.isRecording" ng-click="showRecordingStatus(server, conference)"
                                 class="btn btn-default btn-sm btn-no-outline">Recording status</button>
+
+                        <span class="list-conference-title-details" ng-show="conference.members.length > 0">
+                            {{ conference.members.length }} member{{ conference.members.length > 1 ? 's' : '' }}
+                        </span>
                     </div>
 
                     <table class="table table-bordered table-striped table-hover table-condensed">
