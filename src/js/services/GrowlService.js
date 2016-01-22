@@ -8,7 +8,12 @@
         };
 
         GrowlService.prototype.info = function(message, title) {
-            $.growl({ title: title || '', message: message || ''});
+            var options = {
+                //icon: "http://yourimage.jpg",
+                body: message
+            };
+
+            var notification = new Notification(title, options);
         };
 
         GrowlService.prototype.error = function(message, title) {
