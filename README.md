@@ -11,15 +11,15 @@ Latest: [![GitHub release](https://img.shields.io/github/release/pablote/fs-mgmt
 
 On OSX, if using [Homebrew](http://brew.sh/) and [Caskroom](http://caskroom.io/):
 ```
-brew cask install freeswitch-desktop`
+brew cask install freeswitch-desktop
 ```
 
-#build
+## build
 
 * Run ```grunt build```
 * Executables are on ```build/Freeswitch Desktop/{platform-name}/```
 
-#screenshots
+## screenshots
 
 ![App Screen 1](/screenshots/v1.2.0/1.png?raw=true "App Screen 1")
 
