@@ -4,7 +4,6 @@
     <tasks>
       <task value="bundle" />
     </tasks>
-    <pass-parent-env-vars value="true" />
     <envs />
     <force value="false" />
     <verbose value="false" />

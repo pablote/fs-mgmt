@@ -65,7 +65,7 @@ module.exports = function(grunt) {
             options: {
                 compress: true,
                 cleancss: true,
-                sourceMap: true,
+                sourceMap: true
                 //sourceMapFilename: 'web/public/bundles/stylesheets/shared/layout.css.map',
                 //sourceMapBasepath: "web/public/bundles/stylesheets/shared/",
                 //sourceMapURL: 'layout.css.map'
@@ -84,24 +84,10 @@ module.exports = function(grunt) {
                     'app/js/bundle.js.map'
                 ]
             }
-        },
-
-        exec: {
-            linux: {
-                command: './build/Freeswitch\\ Desktop/linux64/Freeswitch\\ Desktop',
-                stdout: true,
-                stderr: true
-            },
-            mac: {
-                command: 'open build/Freeswitch\\ Desktop/osx64/Freeswitch\\ Desktop.app/',
-                stdout: true,
-                stderr: true
-            }
         }
     });
 
     grunt.loadNpmTasks('grunt-nw-builder');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');

@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run" type="NodeWebKit" factoryName="Node-webkit" exePath="$PROJECT_DIR$/cache/0.12.0/osx64/nwjs.app/Contents/MacOS/nwjs" inputPath="$PROJECT_DIR$/src">
-    <option name="name" value="Run" />
-    <RunnerSettings RunnerId="Basic" />
-    <ConfigurationWrapper RunnerId="Basic" />
-    <method />
-  </configuration>
-</component>
