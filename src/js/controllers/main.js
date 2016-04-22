@@ -106,7 +106,7 @@
                     if (existingServers.length === 0) {
                         $scope.settings.serverList.push({
                             name: host,
-                            host: host,
+                            host: host
                         });
                     } else {
                         alert ('There\'s already a server by that name');
@@ -116,6 +116,22 @@
 
             $scope.removeServer = function (server) {
                 $scope.settings.serverList = u.without($scope.settings.serverList, server);
+            };
+
+            $scope.selectAllServers = function () {
+                if ($scope.settings && $scope.settings.serverList) {
+                    u.each($scope.settings.serverList, function (server) {
+                        server.enabled = true;
+                    });
+                }
+            };
+
+            $scope.deselectAllServers = function () {
+                if ($scope.settings && $scope.settings.serverList) {
+                    u.each($scope.settings.serverList, function (server) {
+                        server.enabled = false;
+                    });
+                }
             };
 
             // modal dialog methods

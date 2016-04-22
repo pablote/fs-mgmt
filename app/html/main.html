@@ -14,7 +14,11 @@
                 <form class="settings-panel-content">
                     <h4>SETTINGS</h4>
                     <div class="form-group">
-                        <label>Servers</label>
+                        <label class="settings-title">
+                            Servers
+                            <a ng-click="selectAllServers()" class="settings-action">Select All</a>
+                            <a ng-click="deselectAllServers()" class="settings-action">Deselect All</a>
+                        </label>
                         <ul class="server-list">
                             <li class="server-list-item" ng-repeat="server in settings.serverList track by server.name">
                                 <input type="checkbox" ng-model="server.enabled" ng-disabled="isSettingsDisabled" />
