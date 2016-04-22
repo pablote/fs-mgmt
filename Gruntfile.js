@@ -19,6 +19,22 @@ module.exports = function(grunt) {
             src: ['./app/**/*']
         },
 
+        appdmg: {
+            options: {
+                title: 'Freeswitch Desktop',
+                icon: 'app/images/icon.icns',
+                background: 'images/blank.png',
+                'icon-size': 80,
+                contents: [
+                    { "x": 350, "y": 100, "type": "link", "path": "/Applications" },
+                    { "x": 150, "y": 100, "type": "file", "path": "build/Freeswitch Desktop/osx64/Freeswitch Desktop.app" }
+                ]
+            },
+            target: {
+                dest: 'build/Freeswitch Desktop/osx64/Freeswitch Desktop.dmg'
+            }
+        },
+
         uglify: {
             options: {
                 sourceMap: true,
@@ -66,9 +82,6 @@ module.exports = function(grunt) {
                 compress: true,
                 cleancss: true,
                 sourceMap: true
-                //sourceMapFilename: 'web/public/bundles/stylesheets/shared/layout.css.map',
-                //sourceMapBasepath: "web/public/bundles/stylesheets/shared/",
-                //sourceMapURL: 'layout.css.map'
             },
             all: {
                 files: {
@@ -92,7 +105,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-appdmg');
     grunt.registerTask('bundle', ['newer:uglify', 'less']);
-    grunt.registerTask('build', ['bundle', 'clean', 'nwjs']);
+    grunt.registerTask('build', ['bundle', 'clean', 'nwjs', 'appdmg']);
     grunt.registerTask('default', ['build']);
 };
