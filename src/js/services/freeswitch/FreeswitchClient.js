@@ -9,6 +9,8 @@
 
     module.factory('FreeswitchClient', ['$q', '$http', 'ConferenceListParser', 'CallListParser', 'FreeswitchServer',
         function ($q, $http, ConferenceListParser, CallListParser, FreeswitchServer) {
+            var u = require('underscore');
+
             var FreeswitchClient = function (server, requestTimeout) {
                 this.host = server.host;
                 this.username = server.username;
@@ -47,12 +49,14 @@
                             return parser.parse(listResponse);
                         })
                         .then(function (parseResponse) {
+                            var conferences = u.sortBy(parseResponse, "name");
+
                             resolve(new FreeswitchServer({
                                 name: self.name,
                                 host: self.host,
                                 username: self.username,
                                 password: self.password,
-                                conferences: parseResponse
+                                conferences: conferences
                             }));
                         })
                         .catch(function (error) {

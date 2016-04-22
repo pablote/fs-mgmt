@@ -19,6 +19,22 @@ module.exports = function(grunt) {
             src: ['./app/**/*']
         },
 
+        appdmg: {
+            options: {
+                title: 'Freeswitch Desktop',
+                icon: 'app/images/icon.icns',
+                background: 'images/blank.png',
+                'icon-size': 80,
+                contents: [
+                    { "x": 350, "y": 100, "type": "link", "path": "/Applications" },
+                    { "x": 150, "y": 100, "type": "file", "path": "build/Freeswitch Desktop/osx64/Freeswitch Desktop.app" }
+                ]
+            },
+            target: {
+                dest: 'build/Freeswitch Desktop/osx64/Freeswitch Desktop.dmg'
+            }
+        },
+
         uglify: {
             options: {
                 sourceMap: true,
@@ -65,10 +81,7 @@ module.exports = function(grunt) {
             options: {
                 compress: true,
                 cleancss: true,
-                sourceMap: true,
-                //sourceMapFilename: 'web/public/bundles/stylesheets/shared/layout.css.map',
-                //sourceMapBasepath: "web/public/bundles/stylesheets/shared/",
-                //sourceMapURL: 'layout.css.map'
+                sourceMap: true
             },
             all: {
                 files: {
@@ -84,31 +97,16 @@ module.exports = function(grunt) {
                     'app/js/bundle.js.map'
                 ]
             }
-        },
-
-        exec: {
-            linux: {
-                command: './build/Freeswitch\\ Desktop/linux64/Freeswitch\\ Desktop',
-                stdout: true,
-                stderr: true
-            },
-            mac: {
-                command: 'open build/Freeswitch\\ Desktop/osx64/Freeswitch\\ Desktop.app/',
-                stdout: true,
-                stderr: true
-            }
         }
     });
 
     grunt.loadNpmTasks('grunt-nw-builder');
-    grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-newer');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-appdmg');
     grunt.registerTask('bundle', ['newer:uglify', 'less']);
-    grunt.registerTask('build', ['bundle', 'clean', 'nwjs']);
-    grunt.registerTask('run:linux', ['build', 'exec:linux']);
-    grunt.registerTask('run:mac', ['build', 'exec:mac']);
+    grunt.registerTask('build', ['bundle', 'clean', 'nwjs', 'appdmg']);
     grunt.registerTask('default', ['build']);
 };

@@ -18,10 +18,53 @@
   }
 }
 
-.list-conference-title {
-  margin-bottom: 10px;
+.list-server-item {
+  .list-server-header {
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    h3 {
+      display: inline;
+      vertical-align: middle;
+    }
+
+    .list-server-header-details {
+      color: transparent;
+      vertical-align: middle;
+    }
+  }
+
+  &:hover {
+    .list-server-header {
+      .list-server-header-details {
+        color: #AAAAAA;
+      }
+    }
+  }
 }
 
-.list-conference-name {
-  display: inline;
+.list-conference-item {
+  .list-conference-title {
+    margin-bottom: 10px;
+
+    .list-conference-name {
+      display: inline;
+    }
+
+    .list-conference-title-details {
+      color: transparent;
+
+      &:hover {
+        color: #AAAAAA;
+      }
+    }
+  }
+
+  &:hover {
+    .list-conference-title {
+      .list-conference-title-details {
+        color: #AAAAAA;
+      }
+    }
+  }
 }
