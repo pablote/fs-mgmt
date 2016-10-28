@@ -8,10 +8,10 @@ module.exports = function(grunt) {
         nwjs: {
             options: {
                 appName: 'Freeswitch Desktop',
-                version: '0.17.6',
+                version: '0.18.3',
                 flavor: 'normal',
                 buildDir: './build',
-                platforms: [ 'osx64' ],
+                platforms: ['osx64'],
                 winIco: "app/images/icon.ico",
                 macZip: true,
                 macIcns: "app/images/icon.icns"
