@@ -8,7 +8,7 @@ module.exports = function(grunt) {
         nwjs: {
             options: {
                 appName: 'Freeswitch Desktop',
-                version: '0.13.4',
+                version: '0.15.4',
                 flavor: 'normal',
                 buildDir: './build',
                 platforms: [ 'osx64' ],
