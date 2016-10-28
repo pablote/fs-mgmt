@@ -13,7 +13,7 @@ module.exports = function(grunt) {
                 buildDir: './build',
                 platforms: ['osx64'],
                 winIco: "app/images/icon.ico",
-                macZip: true,
+                zip: true,
                 macIcns: "app/images/icon.icns"
             },
             src: ['./app/**/*']
