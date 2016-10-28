@@ -9,6 +9,7 @@ module.exports = function(grunt) {
             options: {
                 appName: 'Freeswitch Desktop',
                 version: '0.13.4',
+                flavor: 'normal',
                 buildDir: './build',
                 platforms: [ 'osx64' ],
                 winIco: "app/images/icon.ico",
