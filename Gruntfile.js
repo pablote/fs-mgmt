@@ -1,5 +1,4 @@
 /*globals module */
-
 module.exports = function(grunt) {
     'use strict';
 
@@ -9,9 +8,9 @@ module.exports = function(grunt) {
         nwjs: {
             options: {
                 appName: 'Freeswitch Desktop',
-                version: '0.12.3',
+                version: '0.13.4',
                 buildDir: './build',
-                platforms: [ 'osx64', 'linux64' ],
+                platforms: [ 'osx64' ],
                 winIco: "app/images/icon.ico",
                 macZip: true,
                 macIcns: "app/images/icon.icns"
