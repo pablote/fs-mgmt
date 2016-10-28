@@ -1,4 +1,4 @@
-/*globals angular, console */
+/*globals angular, console, nw */
 (function () {
     'use strict';
     var module = angular.module('fsmgmt.controllers.calls', [
@@ -11,7 +11,6 @@
 
     module.controller('CallsController', ['$scope', '$interval', 'growl', 'freeswitch',
         function ($scope, $interval, growl, freeswitch) {
-            var gui = require('nw.gui');
             var u = require('underscore');
 
             // default values
@@ -75,7 +74,7 @@
             };
 
             $scope.copyToClipboard = function (text) {
-                var clipboard = gui.Clipboard.get();
+                var clipboard = nw.Clipboard.get();
                 clipboard.set(text, 'text');
 
                 growl.info(text, 'Copied to Clipboard');
