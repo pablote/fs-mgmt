@@ -16,8 +16,14 @@
                     <div class="form-group">
                         <label class="settings-title">
                             Servers
-                            <a ng-click="selectAllServers()" class="settings-action">Select All</a>
-                            <a ng-click="deselectAllServers()" class="settings-action">Deselect All</a>
+                            <a ng-click="selectAllServers()"
+                               ng-class="{'settings-action-disabled': isSettingsDisabled, 'settings-action': !isSettingsDisabled}">
+                                Select All
+                            </a>
+                            <a ng-click="deselectAllServers()"
+                               ng-class="{'settings-action-disabled': isSettingsDisabled, 'settings-action': !isSettingsDisabled}">
+                                Deselect All
+                            </a>
                         </label>
                         <ul class="server-list">
                             <li class="server-list-item" ng-repeat="server in settings.serverList track by server.name">

@@ -116,7 +116,7 @@
             };
 
             $scope.selectAllServers = function () {
-                if ($scope.settings && $scope.settings.serverList) {
+                if ($scope.settings && $scope.settings.serverList && !$scope.isSettingsDisabled) {
                     u.each($scope.settings.serverList, function (server) {
                         server.enabled = true;
                     });
@@ -124,7 +124,7 @@
             };
 
             $scope.deselectAllServers = function () {
-                if ($scope.settings && $scope.settings.serverList) {
+                if ($scope.settings && $scope.settings.serverList && !$scope.isSettingsDisabled) {
                     u.each($scope.settings.serverList, function (server) {
                         server.enabled = false;
                     });
