@@ -21,34 +21,38 @@
         FreeswitchRouter.prototype.listConferences = function(servers) {
             var self = this;
             return $q(function (resolve, reject) {
-                var responses = [];
+                if (servers.length == 0) {
+                    resolve([]);
+                } else {
+                    var responses = [];
 
-                u.each(servers, function (server) {
-                    var client = new FreeswitchClient(server, self.timeout);
-                    responses.push(client.listConferences());
-                });
-
-                $q.allSettled(responses)
-                    .then(function(allResponses) {
-                        resolve(allResponses);
-                    })
-                    .catch(function(allResponses) {
-                        resolve(u.map(allResponses, function (response) {
-                            if (response instanceof FreeswitchServer) {
-                                return response;
-                            } else {
-                                console.log(JSON.stringify(response));
-
-                                return {
-                                    name: response.server.name,
-                                    host: response.server.host,
-                                    error: (response.status === 0 || response.status === -1)
-                                        ? "Connection refused"
-                                        : '(' + response.status + ') ' + response.statusText
-                                }
-                            }
-                        }));
+                    u.each(servers, function (server) {
+                        var client = new FreeswitchClient(server, self.timeout);
+                        responses.push(client.listConferences());
                     });
+
+                    $q.allSettled(responses)
+                        .then(function(allResponses) {
+                            resolve(allResponses);
+                        })
+                        .catch(function(allResponses) {
+                            resolve(u.map(allResponses, function (response) {
+                                if (response instanceof FreeswitchServer) {
+                                    return response;
+                                } else {
+                                    console.log(JSON.stringify(response));
+
+                                    return {
+                                        name: response.server.name,
+                                        host: response.server.host,
+                                        error: (response.status === 0 || response.status === -1)
+                                            ? "Connection refused"
+                                            : '(' + response.status + ') ' + response.statusText
+                                    }
+                                }
+                            }));
+                        });
+                }
             });
         };
 
